@@ -2,9 +2,10 @@ import React from 'react';
 import SearchBar from './SearchBar'; 
 import youtube from '../api/youtube';
 import VideoList from './VideoList';
+import VideoDetail from './VideoDetail';
 
 class App extends React.Component {
-    state = {videos: []};
+    state = {videos: [], selectedVideo: null};
     search = async (term)=>{
         //The SearchBar calls the search funciton with the term
         // And here we will make the api request
@@ -19,24 +20,40 @@ class App extends React.Component {
           });
 
          
-          this.setState({videos: result.data.items});
-        
+          this.setState({
+              videos: result.data.items,
+              selectedVideo:result.data.items[0]
+            });
+          
     }
 
+onVideoSelect = (video) =>{
+this.setState({selectedVideo:video});
+
+
+}
 
 render(){
 
     return(
 
-        <div className="ui container">
+        <div className="ui container" style ={{marginTop:'10px' }}>
 
             <SearchBar Search={this.search} />
             
-            I have {this.state.videos.length} videos
+            <div className="ui grid">
+                <div className="ui row">
 
-            <VideoList videos={this.state.videos}/>
+                    <div className="eleven wide column">
+                        <VideoDetail video={this.state.selectedVideo}/>
+                    </div>
 
+                    <div className="five wide column">
+                        <VideoList videos={this.state.videos} onVideoSelect = {this.onVideoSelect}/>
+                    </div>
+                </div>
             </div>
+         </div>
 
     );
 

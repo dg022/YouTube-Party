@@ -1,10 +1,15 @@
 import React from 'react';
+import './vi.css';
+const VideoItem = ({vid, onVideoSelect}) =>{
 
-const VideoItem = ({vid}) =>{
-
-    return (<div> 
-        <img src={vid.snippet.thumbnails.medium.url}/>
-        {vid.snippet.title}
+    return (
+    
+    <div onClick={() => onVideoSelect(vid)}className="video-item item">
+        <img className="ui image"src={vid.snippet.thumbnails.medium.url}/>
+        <div className="content">
+        <div className="header">  {vid.snippet.title}</div>
+        <div className="description">Updated 10 mins ago</div>
+        </div>
 
 
     </div>);
