@@ -1,9 +1,10 @@
 import React from 'react'; 
 import SearchBar from './SearchBar'; 
 import youtube from '../api/youtube';
+import VideoList from './VideoList';
 
 class App extends React.Component {
-    
+    state = {videos: []};
     search = async (term)=>{
         //The SearchBar calls the search funciton with the term
         // And here we will make the api request
@@ -12,12 +13,14 @@ class App extends React.Component {
             params: {
               q: term,
               part: "snippet",
+               type: 'video',
               maxResults: 5,
               key: 'AIzaSyBSAzBSy4bhfG8JaCmptEDdreLpQXdAAbQ'            }
           });
 
-
-        console.log(result);
+         
+          this.setState({videos: result.data.items});
+        
     }
 
 
@@ -29,7 +32,10 @@ render(){
 
             <SearchBar Search={this.search} />
             
-            
+            I have {this.state.videos.length} videos
+
+            <VideoList videos={this.state.videos}/>
+
             </div>
 
     );
