@@ -3,29 +3,34 @@ import SearchBar from './SearchBar';
 import youtube from '../api/youtube';
 import VideoList from './VideoList';
 import VideoDetail from './VideoDetail';
+import CommentDetail from './CommentDetail';
+import socketIOClient from "socket.io-client";
+
 
 class App extends React.Component {
-    state = {videos: [], selectedVideo: null, data:null};
+    state = {videos: [], selectedVideo: null, data:null,  endpoint: "localhost:4001", color: 'white'};
+    
 
-    componentDidMount() {
-        // Call our fetch function below once the component mounts
-      this.callBackendAPI()
-        .then(res => this.setState({ data: res.express }))
-        .catch(err => console.log(err));
-    }
-      // Fetches our GET route from the Express server. (Note the route we are fetching matches the GET route from server.js
-    callBackendAPI = async () => {
-      const response = await fetch('/express_backend');
-      const body = await response.json();
-  
-      if (response.status !== 200) {
-        throw Error(body.message) 
+    send = () => {
+        const socket = socketIOClient(this.state.endpoint);
+        socket.emit('change color', this.state.color) // change 'red' to this.state.color
       }
-      return body;
-    };
-
-
-
+      ///
+    
+      // adding the function
+      setColor = (color) => {
+        this.setState({ color })
+      }
+    
+      componentDidMount = () => {
+          const socket = socketIOClient(this.state.endpoint);
+          setInterval(this.send(), 1000)
+          socket.on('change color', (col) => {
+              document.body.style.backgroundColor = col;
+          })
+      }
+     
+ 
     search = async (term)=>{
         //The SearchBar calls the search funciton with the term
         // And here we will make the api request
@@ -55,6 +60,9 @@ this.setState({selectedVideo:video});
 
 render(){
 
+    const socket = socketIOClient(this.state.endpoint);
+
+
     return(
 
         <div className="ui container" style ={{marginTop:'10px' }}>
@@ -69,11 +77,22 @@ render(){
                     </div>
 
                     <div className="five wide column">
+
                         <VideoList videos={this.state.videos} onVideoSelect = {this.onVideoSelect}/>
                     </div>
                 </div>
+                  <div className="ui row">
+                  <h4 className="ui header"> Chat Room</h4>
+                    <div className="sixteen wide column ui segment">
+                        {this.state.data}
+                    <CommentDetail/>
+                    </div>
+                </div>
             </div>
-           wow right here {this.state.data}
+           
+        <button id="blue" onClick={() => this.setColor('blue')}>Blue</button>
+        <button id="red" onClick={() => this.setColor('red')}>Red</button>
+        
          </div>
 
     );
