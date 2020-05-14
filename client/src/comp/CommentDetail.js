@@ -6,7 +6,7 @@ const CommentDetail = (props) =>{
 
 return(
 
-    <div class="ui comments">
+  
             <div class="comment">
                 <a class="avatar">
                 <img src={Faker.image.avatar()}/>
@@ -21,11 +21,11 @@ return(
                     </div>
                 </div>
                 <div class="text">
-                    Hey guys, I hope this example comment is helping you read this documentation.
+                    {props.content} 
                 </div>
                 </div>
             </div>
-            </div>
+           
 
 
 

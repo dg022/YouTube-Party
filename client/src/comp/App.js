@@ -5,31 +5,46 @@ import VideoList from './VideoList';
 import VideoDetail from './VideoDetail';
 import CommentDetail from './CommentDetail';
 import socketIOClient from "socket.io-client";
+import Message from './Message'; 
+import MessageList from './MessageList';
 
 
 class App extends React.Component {
-    state = {videos: [], selectedVideo: null, data:null,  endpoint: "localhost:4001", color: 'white'};
+    state = {videos: [], selectedVideo: null, data:null,  endpoint: "localhost:4001", color: 'white', messages:[]};
     
 
-    send = () => {
+
+
+
+    send = (list) => {
         const socket = socketIOClient(this.state.endpoint);
-        socket.emit('change color', this.state.color) // change 'red' to this.state.color
+        //You are sendign the array of messages
+        socket.emit('change color', list) 
       }
-      ///
+      
     
-      // adding the function
-      setColor = (color) => {
-        this.setState({ color })
-      }
+      
     
-      componentDidMount = () => {
+      componentWillMount = () => {
           const socket = socketIOClient(this.state.endpoint);
-          setInterval(this.send(), 1000)
+          
+        
           socket.on('change color', (col) => {
-              document.body.style.backgroundColor = col;
+              // Here Im updating the messages array, to be the new messages that I have recived
+              this.setState({messages:col});
           })
       }
+
+   
+
      
+    sendMessage = (message) =>{
+        // You take this message that is given, and update the state of the messages
+        const list = this.state.messages;
+        list.push(message); 
+        this.send(list)
+
+    }
  
     search = async (term)=>{
         //The SearchBar calls the search funciton with the term
@@ -48,8 +63,7 @@ class App extends React.Component {
           this.setState({
               videos: result.data.items,
               selectedVideo:result.data.items[0]
-            });
-          
+            });   
     }
 
 onVideoSelect = (video) =>{
@@ -61,6 +75,7 @@ this.setState({selectedVideo:video});
 render(){
 
     const socket = socketIOClient(this.state.endpoint);
+    console.log(this.state.messages);
 
 
     return(
@@ -68,6 +83,7 @@ render(){
         <div className="ui container" style ={{marginTop:'10px' }}>
 
             <SearchBar Search={this.search} />
+            
             
             <div className="ui grid">
                 <div className="ui row">
@@ -85,14 +101,14 @@ render(){
                   <h4 className="ui header"> Chat Room</h4>
                     <div className="sixteen wide column ui segment">
                         {this.state.data}
-                    <CommentDetail/>
+                    
+                    <MessageList msglist={this.state.messages}/>
                     </div>
                 </div>
             </div>
            
-        <button id="blue" onClick={() => this.setColor('blue')}>Blue</button>
-        <button id="red" onClick={() => this.setColor('red')}>Red</button>
-        
+       
+        <Message msg={this.sendMessage} />
          </div>
 
     );
