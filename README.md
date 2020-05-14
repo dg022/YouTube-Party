@@ -16,5 +16,5 @@ You will also see any lint errors in the console.
 ## Demo - Search and Select
 ![](react.gif)
 
-##Demo - Live Chat via sockets
+## Demo - Live Chatting Via Sockets
 ![](react1.gif)
