@@ -4,9 +4,7 @@ import React from 'react';
 // Which will then be called from inside, 
 
 const VideoDetail = ({video}) =>{
-    if( document.querySelector('#myFrame')!=null){
-    document.querySelector('#myFrame').addEventListener('click');
-    }
+  
     if(video == null){
         return(
             <div></div>
