@@ -7,16 +7,16 @@ const CommentDetail = (props) =>{
 return(
 
   
-            <div class="comment">
-                <a class="avatar">
+            <div className="comment">
+                <a className="avatar">
                 <img src={Faker.image.avatar()}/>
                 </a>
-                <div class="content">
-                <a class="author"> {props.author}    </a>
+                <div className="content">
+                <a className="author"> {props.author}    </a>
                 <div class="metadata">
-                    <div class="date">2 days ago</div>
-                    <div class="rating">
-                    <i class="star icon"></i>
+                    <div className="date">2 days ago</div>
+                    <div className="rating">
+                    <i className="star icon"></i>
                     5 Faves
                     </div>
                 </div>

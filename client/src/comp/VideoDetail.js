@@ -1,25 +1,27 @@
 import React from 'react'; 
 
-
-
+// You need to pass a funciton to VideoDetail 
+// Which will then be called from inside, 
 
 const VideoDetail = ({video}) =>{
-
+    if( document.querySelector('#myFrame')!=null){
+    document.querySelector('#myFrame').addEventListener('click');
+    }
     if(video == null){
         return(
             <div></div>
         );
 
     }
-
+    
     const videoSrc = `https://www.youtube.com/embed/${video.id.videoId}`
 
 
 return(
 
     <div>
-        <div className="ui embed">
-            <iframe src={videoSrc} />
+        <div onClick={() => console.log("HeSWAG") } className="ui embed">
+            <iframe id="myFrame" onClick={()=>console.log("MILGYA")} src={videoSrc} />
 
         </div>
 

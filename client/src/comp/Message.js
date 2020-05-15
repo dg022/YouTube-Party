@@ -10,9 +10,11 @@ this.setState({term:event.target.value});
 };
 
 submit = (event) =>{
+
 event.preventDefault(); 
+
 this.props.msg(this.state.term);
-event.target.value ="";
+
 
 
 };
@@ -21,7 +23,7 @@ render(){
 
 return(
     <div className="search-bar ui segment">
-        <form onSubmit={this.submit}className ="ui form">
+        <form id="myForm" onSubmit={this.submit}className ="ui form">
             <div className="field" >
 
                 <label>Send message</label>

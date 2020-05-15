@@ -26,6 +26,22 @@ io.on('connection', socket => {
     io.sockets.emit('change color', color)
   })
 
+  // Once we get a search call back funcition, we emit the result from to all those connected to the socket
+  socket.on('search', (result) => {
+    
+    
+    io.sockets.emit('search', result)
+  })
+
+  socket.on('select', (video) => {
+    
+    
+    io.sockets.emit('select', video)
+  })
+
+
+
+
   // disconnect is fired when a client leaves the server
   socket.on('disconnect', () => {
     console.log('user disconnected')

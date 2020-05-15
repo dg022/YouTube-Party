@@ -21,7 +21,15 @@ class App extends React.Component {
         //You are sendign the array of messages
         socket.emit('change color', list) 
       }
-      
+
+    // When a user makes a search query, it is emmited to the other sockets, then once it is recived again, it will be rendered
+    EmitSearch = (result) =>{
+       
+        const socket = socketIOClient(this.state.endpoint);
+        socket.emit('search', result) 
+
+
+    }
     
       
     
@@ -33,12 +41,30 @@ class App extends React.Component {
               // Here Im updating the messages array, to be the new messages that I have recived
               this.setState({messages:col});
           })
+
+          // Setting the state with the search result
+          socket.on('search', (result) => {
+            
+            this.setState({
+                videos: result.data.items,
+                selectedVideo:result.data.items[0]
+              });   
+        })
+
+        socket.on('select', (video) => {
+            
+            this.setState({selectedVideo:video});
+
+        })
+
+
       }
 
    
 
      
     sendMessage = (message) =>{
+        
         // You take this message that is given, and update the state of the messages
         const list = this.state.messages;
         list.push(message); 
@@ -59,17 +85,17 @@ class App extends React.Component {
               key: 'AIzaSyBSAzBSy4bhfG8JaCmptEDdreLpQXdAAbQ'            }
           });
 
-         
-          this.setState({
-              videos: result.data.items,
-              selectedVideo:result.data.items[0]
-            });   
+          this.EmitSearch(result);
+          
     }
 
+
+// This is a function
 onVideoSelect = (video) =>{
-this.setState({selectedVideo:video});
 
 
+    const socket = socketIOClient(this.state.endpoint);
+    socket.emit('select', video) 
 }
 
 render(){
@@ -88,8 +114,10 @@ render(){
             <div className="ui grid">
                 <div className="ui row">
 
-                    <div className="eleven wide column">
+                    <div  className="eleven wide column">
+                        
                         <VideoDetail video={this.state.selectedVideo}/>
+                        
                     </div>
 
                     <div className="five wide column">
