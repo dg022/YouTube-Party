@@ -13,6 +13,7 @@ class App extends React.Component {
     state = {videos: [], selectedVideo: null, data:null,  endpoint: "localhost:4001", color: 'white', messages:[]};
     
 
+    
 
 
 
@@ -57,11 +58,17 @@ class App extends React.Component {
 
         })
 
+        socket.on('play', (target) => {
+            // This should pause the video instead of playing
+            target.pauseVideo();
+
+        })
+
 
       }
 
    
-
+    
      
     sendMessage = (message) =>{
         
@@ -71,6 +78,16 @@ class App extends React.Component {
         this.send(list)
 
     }
+
+
+    pressPlay = (target) => {
+
+        const socket = socketIOClient(this.state.endpoint);
+        socket.emit('play', target) 
+
+
+    }
+
  
     search = async (term)=>{
         //The SearchBar calls the search funciton with the term
@@ -116,7 +133,7 @@ render(){
 
                     <div  className="eleven wide column">
                         
-                        <VideoDetail video={this.state.selectedVideo}/>
+                        <VideoDetail play={this.pressPlay} video={this.state.selectedVideo}/>
                         
                     </div>
 

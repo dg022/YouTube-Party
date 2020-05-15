@@ -39,6 +39,12 @@ io.on('connection', socket => {
     io.sockets.emit('select', video)
   })
 
+  socket.on('play', (target) => {
+    
+    
+    io.sockets.emit('play', target)
+  })
+
 
 
 

@@ -13,18 +13,25 @@ class VideoDetail extends React.Component{
           playerVars: {
             // https://developers.google.com/youtube/player_parameters
             autoplay: 1,
+            enablejsapi:1
           },
         };
 
         if(this.props.video==null){
         return <div></div>; 
         }
+        
 
+        // You need to call, a call back functtion, which then will will emit to all other sockets, then on reciveing from 
+        //Socket you can then click the button to play
+        //You need to send back event.target
         return(
 
             <div>
+
+                
                 <div  className="ui embed">
-                <YouTube videoId={this.props.video.id.videoId} opts={opts} onReady={this._onReady} />;
+                <YouTube videoId={this.props.video.id.videoId} opts={opts} onClick={(event)=> this.props.play(event.target)} />;
         
                 </div>
         
