@@ -10,7 +10,7 @@ import MessageList from './MessageList';
 
 
 class App extends React.Component {
-    state = {videos: [], selectedVideo: null, data:null,  endpoint: "localhost:4001", color: 'white', messages:[]};
+    state = {videos: [], selectedVideo: null, data:null,  endpoint: "localhost:4001", color: 'white', messages:[], time:0, playerState:1};
     
 
     
@@ -59,11 +59,10 @@ class App extends React.Component {
         })
 
         socket.on('play', (time, state) => {
-            // This should pause the video instead of playing
-            //target.pauseVideo();
+            // Here  I need to use to time and state to then change the video players' vid status
             
             console.log(time,state); 
-
+            this.setState({time:time, playerState:state })
         })
 
 
@@ -135,7 +134,7 @@ render(){
 
                     <div  className="eleven wide column">
                         
-                        <VideoDetail play={this.pressPlay} video={this.state.selectedVideo}/>
+                        <VideoDetail time ={this.state.time} playerState={this.state.playerState} play={this.pressPlay} video={this.state.selectedVideo}/>
                         
                     </div>
 
