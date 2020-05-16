@@ -4,6 +4,20 @@ import YouTube from 'react-youtube';
 // Which will then be called from inside, 
 //props.video.id.videoId ---> This  is the link to the video
 class VideoDetail extends React.Component{
+
+    videochange = (event) => {
+
+        
+        this.props.play(event.target.playerInfo.currentTime, event.target.playerInfo.playerState);
+
+        //PlayerState = 2 then it is playing
+        //PlayerState = 1 then it is pasued
+
+        //Match the player state, if it is 2 we pause at the current time, if it is 1 we play at the currnet time that is passed
+
+    }
+
+
   
     render() {
 
@@ -31,7 +45,7 @@ class VideoDetail extends React.Component{
 
                 
                 <div  className="ui embed">
-                <YouTube videoId={this.props.video.id.videoId} opts={opts} onClick={(event)=> this.props.play(event.target)} />;
+                <YouTube  onStateChange={this.videochange}        videoId={this.props.video.id.videoId} opts={opts}  />;
         
                 </div>
         

@@ -39,10 +39,10 @@ io.on('connection', socket => {
     io.sockets.emit('select', video)
   })
 
-  socket.on('play', (target) => {
+  socket.on('play', (time, state) => {
     
     
-    io.sockets.emit('play', target)
+    io.sockets.emit('play', time, state)
   })
 
 

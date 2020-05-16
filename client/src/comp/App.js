@@ -58,9 +58,11 @@ class App extends React.Component {
 
         })
 
-        socket.on('play', (target) => {
+        socket.on('play', (time, state) => {
             // This should pause the video instead of playing
-            target.pauseVideo();
+            //target.pauseVideo();
+            
+            console.log(time,state); 
 
         })
 
@@ -80,10 +82,10 @@ class App extends React.Component {
     }
 
 
-    pressPlay = (target) => {
+    pressPlay = (time, state) => {
 
         const socket = socketIOClient(this.state.endpoint);
-        socket.emit('play', target) 
+        socket.emit('play', time, state);
 
 
     }
