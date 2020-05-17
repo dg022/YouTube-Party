@@ -25,11 +25,31 @@ class VideoDetail extends React.Component{
     componentWillReceiveProps =(nextProps)=>{
 
         // This means the requres to change the play status is coming from a differnt person
-        console.log("IVE BEEN CALELD")
+        
         if(nextProps.id!= this.state.id){
             if(this.state.player[0]!=null){
-            this.state.player[0].seekTo(nextProps.time); 
+                
+                if(nextProps.playerState == 1){
+                    console.log("Here you should play");
+                    this.state.player[0].seekTo(nextProps.time, 1); 
+
+                }
+
+                if(nextProps.playerState == 2){
+                    this.state.player[0].seekTo(nextProps.time,2); 
+
+                }
+
+
+            
             }
+
+            // -1 = unstarted
+            // 0 = ended 
+            // 1 = playing 
+            // 2 = paused
+            // 3 = buffering
+            // 5= video cued
 
 
         }
@@ -45,8 +65,9 @@ class VideoDetail extends React.Component{
       componentDidMount(){
 
         // This is only ever called once
+        
         this.setState({id:this.props.id}); 
-
+        
       }
 
       Ready =(event) => {

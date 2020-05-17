@@ -10,7 +10,7 @@ import MessageList from './MessageList';
 
 
 class App extends React.Component {
-    state = {videos: [], selectedVideo: null, data:null,  endpoint: "localhost:4001", color: 'white', messages:[], time:0, playerState:-1, target:[], id:0};
+    state = {videos: [], selectedVideo: null, data:null,  endpoint: "localhost:4001", color: 'white', messages:[], time:0, playerState:-1, target:[], id: Math.floor(Math.random() * 100000) };
 
     
 
@@ -67,12 +67,6 @@ class App extends React.Component {
 
       }
 
-      componentDidMount(){
-        const socket = socketIOClient(this.state.endpoint);
-        // only called once
-        this.setState({id:socket.id}); 
-
-      }
     
      
     sendMessage = (message) =>{
