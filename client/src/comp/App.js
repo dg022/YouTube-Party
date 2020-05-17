@@ -10,8 +10,7 @@ import MessageList from './MessageList';
 
 
 class App extends React.Component {
-    state = {videos: [], selectedVideo: null, data:null,  endpoint: "localhost:4001", color: 'white', messages:[], time:0, playerState:1};
-    
+    state = {videos: [], selectedVideo: null, data:null,  endpoint: "localhost:4001", color: 'white', messages:[], time:0, playerState:-1, target:[], id:0};
 
     
 
@@ -31,7 +30,7 @@ class App extends React.Component {
 
 
     }
-    
+   
       
     
       componentWillMount = () => {
@@ -58,17 +57,22 @@ class App extends React.Component {
 
         })
 
-        socket.on('play', (time, state) => {
+        socket.on('play', (time, state, id) => {
             // Here  I need to use to time and state to then change the video players' vid status
             
-            console.log(time,state); 
-            this.setState({time:time, playerState:state })
+            
+            this.setState({time:time, playerState:state, id:id })
         })
 
 
       }
 
-   
+      componentDidMount(){
+        const socket = socketIOClient(this.state.endpoint);
+        // only called once
+        this.setState({id:socket.id}); 
+
+      }
     
      
     sendMessage = (message) =>{
@@ -81,10 +85,10 @@ class App extends React.Component {
     }
 
 
-    pressPlay = (time, state) => {
+    pressPlay = (time, state, id) => {
 
         const socket = socketIOClient(this.state.endpoint);
-        socket.emit('play', time, state);
+        socket.emit('play', time, state, id)
 
 
     }
@@ -119,8 +123,7 @@ onVideoSelect = (video) =>{
 render(){
 
     const socket = socketIOClient(this.state.endpoint);
-    console.log(this.state.messages);
-
+    
 
     return(
 
@@ -134,7 +137,7 @@ render(){
 
                     <div  className="eleven wide column">
                         
-                        <VideoDetail time ={this.state.time} playerState={this.state.playerState} play={this.pressPlay} video={this.state.selectedVideo}/>
+                        <VideoDetail   id={this.state.id} time ={this.state.time} playerState={this.state.playerState} play={this.pressPlay} video={this.state.selectedVideo}/>
                         
                     </div>
 

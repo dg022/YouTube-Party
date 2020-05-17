@@ -5,46 +5,57 @@ import YouTube from 'react-youtube';
 //props.video.id.videoId ---> This  is the link to the video
 class VideoDetail extends React.Component{
 
-    //state = {time:0, playerState:1}; 
+    state = {id:0, player:[]}; 
+   
 
     videochange = (event) => {
 
-        
-        this.props.play(event.target.playerInfo.currentTime, event.target.playerInfo.playerState);
+       
+        this.props.play(event.target.playerInfo.currentTime, event.target.playerInfo.playerState, this.state.id);
 
         //PlayerState = 2 then it is playing
         //PlayerState = 1 then it is pasued
 
         //Match the player state, if it is 2 we pause at the current time, if it is 1 we play at the currnet time that is passed
-        //this.setState({time:event.target.playerInfo.currentTime,playerState:event.target.playerInfo.playerState});
-
-    }
-
-
-    ready =(event) =>{
-
-        //So its all dependant on the props state here
-        //-1 == unstarted
-        //0 == ended
-        //1 = playing
-        //2 = pasued
-        //3 =  buffering
-        //5 = video cued 
-
-        //event.target.player.seekTo(this.props.time);
-        event.target.seekTo(this.props.time);
-
-    }
-
-    //If the props have changed, then I want to 
-    componentDidUpdate(prevState, prevProps) {
-        // we access props with this.props
-        // and state with this.state
         
-        // prevState contains state before update
-        // prevProps contains props before update
-      }
+       
+    }
+
+    //nextProps that are being passed 
+    componentWillReceiveProps =(nextProps)=>{
+
+        // This means the requres to change the play status is coming from a differnt person
+        console.log("IVE BEEN CALELD")
+        if(nextProps.id!= this.state.id){
+            if(this.state.player[0]!=null){
+            this.state.player[0].seekTo(nextProps.time); 
+            }
+
+
+        }
+
+
+
+
+
+    }
+   
+   
     
+      componentDidMount(){
+
+        // This is only ever called once
+        this.setState({id:this.props.id}); 
+
+      }
+
+      Ready =(event) => {
+        const player = this.state.player;
+        player.push(event.target);
+        this.setState({
+          player: player
+        });
+      }
 
 
 
@@ -75,7 +86,7 @@ class VideoDetail extends React.Component{
 
                 
                 <div  className="ui embed">
-                <YouTube  onStateChange={this.videochange}   onReady={this.ready}     videoId={this.props.video.id.videoId} opts={opts}  />;
+                <YouTube  onStateChange={this.videochange}   onReady={this.Ready}     videoId={this.props.video.id.videoId} opts={opts}  />;
         
                 </div>
         
