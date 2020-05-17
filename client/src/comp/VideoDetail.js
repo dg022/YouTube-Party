@@ -6,13 +6,19 @@ import YouTube from 'react-youtube';
 class VideoDetail extends React.Component{
 
     state = {id:0, player:[]}; 
-   
+    abc = false; 
 
     videochange = (event) => {
 
-       
+        if(this.abc!=true){
+        console.log("I was called DESPITE")
         this.props.play(event.target.playerInfo.currentTime, event.target.playerInfo.playerState, this.state.id);
 
+        
+        }else{
+            console.log("THIS means that, it attempted to call another funciton SINCE we mainpulated the play back")
+            this.abc = false;
+        }
         //PlayerState = 2 then it is playing
         //PlayerState = 1 then it is pasued
 
@@ -27,15 +33,20 @@ class VideoDetail extends React.Component{
         // This means the requres to change the play status is coming from a differnt person
         
         if(nextProps.id!= this.state.id){
+
             if(this.state.player[0]!=null){
                 
+                this.abc =true; 
+
                 if(nextProps.playerState == 1){
                     console.log("Here you should play");
-                    this.state.player[0].seekTo(nextProps.time, 1); 
+                    this.state.player[0].seekTo(nextProps.time);
+                    this.state.player[0].playVideo(); 
 
                 }
 
                 if(nextProps.playerState == 2){
+                    console.log("The video has been pasued");
                     this.state.player[0].seekTo(nextProps.time,2); 
 
                 }
