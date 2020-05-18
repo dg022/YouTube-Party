@@ -10,8 +10,8 @@ class VideoDetail extends React.Component{
 
     videochange = (event) => {
 
-        if(this.abc!=true){
-        console.log("I was called DESPITE")
+        if(this.abc!=true && event.target.playerInfo.playerState!=-1  && event.target.playerInfo.playerState!=3   ){
+        console.log(event.target.playerInfo.playerState);
         this.props.play(event.target.playerInfo.currentTime, event.target.playerInfo.playerState, this.state.id);
 
         
@@ -48,7 +48,6 @@ class VideoDetail extends React.Component{
                 if(nextProps.playerState == 2){
                     console.log("The video has been pasued");
                     this.state.player[0].seekTo(nextProps.time,2); 
-
                 }
 
 
@@ -62,6 +61,10 @@ class VideoDetail extends React.Component{
             // 3 = buffering
             // 5= video cued
 
+
+        }else{
+
+            console.log("It received new props from itself, we stop the cycle here");
 
         }
 
@@ -100,7 +103,8 @@ class VideoDetail extends React.Component{
           playerVars: {
             // https://developers.google.com/youtube/player_parameters
         
-            enablejsapi:1
+            enablejsapi:1,
+            controls:0
           },
         };
 
@@ -126,9 +130,19 @@ class VideoDetail extends React.Component{
                 <h4 className="ui header">{this.props.video.snippet.title}</h4>
                 <p>{this.props.video.snippet.description}</p>
                 </div>
-        
-            </div>
-        
+
+                <div class="ui fluid">
+                
+                <div class="ui buttons">
+                <button class="ui icon button"><i aria-hidden="true" class="play icon"></i></button>
+                <button class="ui icon button"><i aria-hidden="true" class="pause icon"></i></button>
+                <button class="ui icon button"><i aria-hidden="true" class="shuffle icon"></i></button>
+                </div>
+                
+                
+                
+                </div>
+        </div>
         );
       }
     
