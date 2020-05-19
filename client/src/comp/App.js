@@ -12,8 +12,6 @@ import MessageList from './MessageList';
 class App extends React.Component {
     state = {videos: [], selectedVideo: null, data:null,  endpoint: "localhost:4001", color: 'white', messages:[], time:0, playerState:-1, target:[], id: Math.floor(Math.random() * 100000) };
 
-    
-
 
 
     send = (list) => {
@@ -57,11 +55,8 @@ class App extends React.Component {
 
         })
 
-        socket.on('play', (time, state, id) => {
-            // Here  I need to use to time and state to then change the video players' vid status
-            
-            
-            this.setState({time:time, playerState:state, id:id })
+        socket.on('play', (state) => {
+            this.setState({playerState:state})
         })
 
 
@@ -79,10 +74,10 @@ class App extends React.Component {
     }
 
 
-    pressPlay = (time, state, id) => {
+    pressPlay = (state) => {
 
         const socket = socketIOClient(this.state.endpoint);
-        socket.emit('play', time, state, id)
+        socket.emit('play', state)
 
 
     }
@@ -116,7 +111,7 @@ onVideoSelect = (video) =>{
 
 render(){
 
-    const socket = socketIOClient(this.state.endpoint);
+    
     
 
     return(
@@ -133,6 +128,9 @@ render(){
                         
                         <VideoDetail   id={this.state.id} time ={this.state.time} playerState={this.state.playerState} play={this.pressPlay} video={this.state.selectedVideo}/>
                         
+
+
+
                     </div>
 
                     <div className="five wide column">

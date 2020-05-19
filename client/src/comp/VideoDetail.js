@@ -6,48 +6,37 @@ import YouTube from 'react-youtube';
 class VideoDetail extends React.Component{
 
     state = {id:0, player:[]}; 
-    abc = false; 
+    
+    //videochange = (event) => {
 
-    videochange = (event) => {
-
-        if(this.abc!=true && event.target.playerInfo.playerState!=-1  && event.target.playerInfo.playerState!=3   ){
-        console.log(event.target.playerInfo.playerState);
-        this.props.play(event.target.playerInfo.currentTime, event.target.playerInfo.playerState, this.state.id);
-
+      //  if( event.target.playerInfo.playerState!=-1  && event.target.playerInfo.playerState!=3   ){
         
-        }else{
-            console.log("THIS means that, it attempted to call another funciton SINCE we mainpulated the play back")
-            this.abc = false;
-        }
-        //PlayerState = 2 then it is playing
-        //PlayerState = 1 then it is pasued
+        //this.props.play(event.target.playerInfo.playerState);
 
-        //Match the player state, if it is 2 we pause at the current time, if it is 1 we play at the currnet time that is passed
-        
+        //}
        
-    }
+    //}
 
     //nextProps that are being passed 
     componentWillReceiveProps =(nextProps)=>{
 
         // This means the requres to change the play status is coming from a differnt person
         
-        if(nextProps.id!= this.state.id){
 
             if(this.state.player[0]!=null){
                 
-                this.abc =true; 
+              
 
                 if(nextProps.playerState == 1){
                     console.log("Here you should play");
-                    this.state.player[0].seekTo(nextProps.time);
+                  
                     this.state.player[0].playVideo(); 
 
                 }
 
                 if(nextProps.playerState == 2){
-                    console.log("The video has been pasued");
-                    this.state.player[0].seekTo(nextProps.time,2); 
+                
+                    this.state.player[0].pauseVideo();
                 }
 
 
@@ -62,12 +51,7 @@ class VideoDetail extends React.Component{
             // 5= video cued
 
 
-        }else{
-
-            console.log("It received new props from itself, we stop the cycle here");
-
-        }
-
+    
 
 
 
@@ -134,9 +118,9 @@ class VideoDetail extends React.Component{
                 <div class="ui fluid">
                 
                 <div class="ui buttons">
-                <button class="ui icon button"><i aria-hidden="true" class="play icon"></i></button>
-                <button class="ui icon button"><i aria-hidden="true" class="pause icon"></i></button>
-                <button class="ui icon button"><i aria-hidden="true" class="shuffle icon"></i></button>
+                <button   onClick={() => this.props.play(1)} class="ui icon button"><i aria-hidden="true" class="play icon"></i></button>
+                <button onClick={() => this.props.play(2) }class="ui icon button"><i aria-hidden="true" class="pause icon"></i></button>
+                
                 </div>
                 
                 
