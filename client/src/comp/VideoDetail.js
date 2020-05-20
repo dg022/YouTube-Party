@@ -1,5 +1,8 @@
 import React from 'react'; 
 import YouTube from 'react-youtube';
+import Slider from './ContinuousSlider';
+import SearchBar from './SearchBar';
+
 // You need to pass a funciton to VideoDetail 
 // Which will then be called from inside, 
 //props.video.id.videoId ---> This  is the link to the video
@@ -109,23 +112,26 @@ class VideoDetail extends React.Component{
                 <YouTube  onStateChange={this.videochange}   onReady={this.Ready}     videoId={this.props.video.id.videoId} opts={opts}  />;
         
                 </div>
+
+                <Slider valueLabelDisplay="auto"/>
+                <div  style ={{marginTop:'10px' }}class="ui buttons fluid">
+
+                    
+                        <button   onClick={() => this.props.play(1)} class="ui icon button"><i aria-hidden="true" class="play icon"></i></button>
+                        <button onClick={() => this.props.play(2) }class="ui icon button"><i aria-hidden="true" class="pause icon"></i></button>
+                       
+                    
+                   
+
+                </div>
+
         
                 <div className = "ui segment">
                 <h4 className="ui header">{this.props.video.snippet.title}</h4>
                 <p>{this.props.video.snippet.description}</p>
                 </div>
 
-                <div class="ui fluid">
-                
-                <div class="ui buttons">
-                <button   onClick={() => this.props.play(1)} class="ui icon button"><i aria-hidden="true" class="play icon"></i></button>
-                <button onClick={() => this.props.play(2) }class="ui icon button"><i aria-hidden="true" class="pause icon"></i></button>
-                
-                </div>
-                
-                
-                
-                </div>
+              
         </div>
         );
       }

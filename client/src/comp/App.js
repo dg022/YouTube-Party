@@ -127,7 +127,14 @@ render(){
                     <div  className="eleven wide column">
                         
                         <VideoDetail   id={this.state.id} time ={this.state.time} playerState={this.state.playerState} play={this.pressPlay} video={this.state.selectedVideo}/>
-                        
+                        <h4 className="ui header"> Chat Room</h4>
+                            
+                                {this.state.data}
+                            <div className="ui segment"> 
+                            <MessageList msglist={this.state.messages}/>
+                            
+                            </div>
+                            <Message msg={this.sendMessage} />
 
 
 
@@ -138,20 +145,12 @@ render(){
                         <VideoList videos={this.state.videos} onVideoSelect = {this.onVideoSelect}/>
                     </div>
                 </div>
-                  <div className="ui row">
-                  <h4 className="ui header"> Chat Room</h4>
-                    <div className="sixteen wide column ui segment">
-                        {this.state.data}
-                    
-                    <MessageList msglist={this.state.messages}/>
-                    </div>
-                </div>
+                
+                 
+                
             </div>
-           
-       
-        <Message msg={this.sendMessage} />
+    
          </div>
-
     );
 
 }
