@@ -12,8 +12,8 @@ import Slider from '@material-ui/core/Slider';
 
     componentWillReceiveProps =(nextProps)=>{
 
-        
-        this.setState({duration:nextProps.duraiton}); 
+        console.log(nextProps.time);
+        this.setState({duration:nextProps.time}); 
         
 
     }
@@ -21,14 +21,7 @@ import Slider from '@material-ui/core/Slider';
 
     Time = () => {
 
-        if(this.state.duraiton!=0){
-            console.log("this MOTHER FUck")
-            return this.state.duraiton; 
-        }else{
-            console.log("damn it")
-            return 0; 
-        }
-
+      return 1; 
     }
 
 render(){
@@ -40,7 +33,7 @@ render(){
             <Typography id="discrete-slider-small-steps" gutterBottom>
             </Typography>
             <Slider
-                 scale={(x) => x+ 1}
+                 scale={(x) =>this.state.duration==0 ? 1 : this.state.duration}
             
                 aria-labelledby="discrete-slider-small-steps"
                 valueLabelDisplay="auto"
