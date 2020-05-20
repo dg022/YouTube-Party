@@ -95,7 +95,7 @@ class App extends React.Component {
               maxResults: 5,
               key: 'AIzaSyBSAzBSy4bhfG8JaCmptEDdreLpQXdAAbQ'            }
           });
-
+         
           this.EmitSearch(result);
           
     }
@@ -107,6 +107,7 @@ onVideoSelect = (video) =>{
 
     const socket = socketIOClient(this.state.endpoint);
     socket.emit('select', video) 
+   
 }
 
 render(){
@@ -144,6 +145,7 @@ render(){
 
                         <VideoList videos={this.state.videos} onVideoSelect = {this.onVideoSelect}/>
                     </div>
+
                 </div>
                 
                  

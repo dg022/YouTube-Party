@@ -8,7 +8,7 @@ import SearchBar from './SearchBar';
 //props.video.id.videoId ---> This  is the link to the video
 class VideoDetail extends React.Component{
 
-    state = {id:0, player:[]}; 
+    state = {id:0, player:[], duration:0}; 
     
     //videochange = (event) => {
 
@@ -24,14 +24,15 @@ class VideoDetail extends React.Component{
     componentWillReceiveProps =(nextProps)=>{
 
         // This means the requres to change the play status is coming from a differnt person
-        
+
+
 
             if(this.state.player[0]!=null){
                 
-              
-
+                this.setState({duration:this.state.player[0].getDuration()}); 
+                console.log(this.state.duration); 
                 if(nextProps.playerState == 1){
-                    console.log("Here you should play");
+                   
                   
                     this.state.player[0].playVideo(); 
 
@@ -72,10 +73,14 @@ class VideoDetail extends React.Component{
       }
 
       Ready =(event) => {
+
+      
         const player = this.state.player;
         player.push(event.target);
+       
         this.setState({
-          player: player
+          player: player,
+          duration:event.target.getDuration()
         });
       }
 
@@ -113,7 +118,7 @@ class VideoDetail extends React.Component{
         
                 </div>
 
-                <Slider valueLabelDisplay="auto"/>
+                <Slider time={this.state.duration} valueLabelDisplay="auto"/>
                 <div  style ={{marginTop:'10px' }}class="ui buttons fluid">
 
                     
