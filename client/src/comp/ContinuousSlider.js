@@ -12,7 +12,7 @@ import Slider from '@material-ui/core/Slider';
 
     componentWillReceiveProps =(nextProps)=>{
 
-        console.log(nextProps.time);
+        
         this.setState({duration:nextProps.time});
 
         
@@ -28,10 +28,10 @@ import Slider from '@material-ui/core/Slider';
 
     handleSliderChange = (event, newValue)=> {
 
-        // Here, we want to take the value here, lets just print it
+        // Here, what we want to do, call a deeply nested call back function, which then notifies all the components of the new time
     
         this.setState({value: newValue});
-        console.log(this.state.value);
+        this.props.newTime(newValue); 
 
 
       };

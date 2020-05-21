@@ -26,13 +26,18 @@ class VideoDetail extends React.Component{
 
         // This means the requres to change the play status is coming from a differnt person
           
-            
+            // Here you need to add the logic to deal with the a slider chage here
 
             if(this.state.player[0]!=null){
 
                 if(this.props.video.id.videoId != nextProps.video.id.videoId){
                     console.log("here");
                     this.setState({duration:this.state.player[0].getDuration()});
+                }
+
+                if(this.props.updatedTime!= nextProps.updatedTime){
+             
+                    this.state.player[0].seekTo(this.props.updatedTime);
                 }
                
                 if(nextProps.playerState == 1){

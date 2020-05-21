@@ -10,7 +10,7 @@ import MessageList from './MessageList';
 
 
 class App extends React.Component {
-    state = {videos: [], selectedVideo: null, data:null,  endpoint: "localhost:4001", color: 'white', messages:[], time:0, playerState:-1, target:[], id: Math.floor(Math.random() * 100000) };
+    state = {videos: [], selectedVideo: null, data:null,  endpoint: "localhost:4001", color: 'white', messages:[],newTime:0, time:0, playerState:-1, target:[], id: Math.floor(Math.random() * 100000) };
 
 
 
@@ -59,6 +59,10 @@ class App extends React.Component {
             this.setState({playerState:state})
         })
 
+        socket.on('newTime', (newTime) => {
+            this.setState({newTime:newTime})
+        })
+
 
       }
 
@@ -78,6 +82,15 @@ class App extends React.Component {
 
         const socket = socketIOClient(this.state.endpoint);
         socket.emit('play', state)
+
+
+    }
+
+
+    newTime = (newTime) => {
+
+        const socket = socketIOClient(this.state.endpoint);
+        socket.emit('newTime', newTime)
 
 
     }
@@ -127,7 +140,7 @@ render(){
 
                     <div  className="eleven wide column">
                         
-                        <VideoDetail   id={this.state.id} time ={this.state.time} playerState={this.state.playerState} play={this.pressPlay} video={this.state.selectedVideo}/>
+                        <VideoDetail  updatedTime={this.state.newTime} newTime ={this.newTime}id={this.state.id} time ={this.state.time} playerState={this.state.playerState} play={this.pressPlay} video={this.state.selectedVideo}/>
                         <h4 className="ui header"> Chat Room</h4>
                             
                                 {this.state.data}
