@@ -32,7 +32,7 @@ class VideoDetail extends React.Component{
 
                 if(this.props.video.id.videoId != nextProps.video.id.videoId){
                     console.log("here");
-                    this.setState({duration:this.state.player[0].getDuration()/60});
+                    this.setState({duration:this.state.player[0].getDuration()});
                 }
                
                 if(nextProps.playerState == 1){
