@@ -8,12 +8,13 @@ import Slider from '@material-ui/core/Slider';
  class  ContinuousSlider extends React.Component {
 
 
-    state = {duration:2}
+    state = {duration:2, value:0 }
 
     componentWillReceiveProps =(nextProps)=>{
 
         console.log(nextProps.time);
-        this.setState({duration:nextProps.time}); 
+        this.setState({duration:nextProps.time});
+
         
 
     }
@@ -25,6 +26,16 @@ import Slider from '@material-ui/core/Slider';
 
     }
 
+    handleSliderChange = (event, newValue)=> {
+
+        // Here, we want to take the value here, lets just print it
+    
+        this.setState({value: newValue});
+        console.log(this.state.value);
+
+
+      };
+    
 
    
 render(){
@@ -37,11 +48,12 @@ render(){
             </Typography>
             <Slider
                  
-                
-                 max={this.state.duration}
+                value={this.state.value}
+                max={this.state.duration}
                 aria-labelledby="discrete-slider-small-steps"
                 valueLabelDisplay="auto"
                 valueLabelFormat={x => this.Format(x) }
+                onChange={this.handleSliderChange}
             />
             </div>
         );
