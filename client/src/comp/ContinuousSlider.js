@@ -18,12 +18,15 @@ import Slider from '@material-ui/core/Slider';
 
     }
 
+     Format =(x) => {
+          
 
-    Time = () => {
+        return Number.isNaN(x) ?  "00:00:00" : new Date(x * 1000).toISOString().substr(11, 8);  
 
-      return 1; 
     }
 
+
+   
 render(){
 
    
@@ -33,10 +36,12 @@ render(){
             <Typography id="discrete-slider-small-steps" gutterBottom>
             </Typography>
             <Slider
-                 scale={(x) =>this.state.duration==0 ? 1 : this.state.duration}
-            
+                 
+                
+                 max={this.state.duration}
                 aria-labelledby="discrete-slider-small-steps"
                 valueLabelDisplay="auto"
+                valueLabelFormat={x => this.Format(x) }
             />
             </div>
         );

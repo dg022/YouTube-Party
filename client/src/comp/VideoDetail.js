@@ -10,7 +10,8 @@ class VideoDetail extends React.Component{
 
     state = {id:0, player:[], duration:0}; 
     
-    //videochange = (event) => {
+    //videochange = (event) => {Y
+
 
       //  if( event.target.playerInfo.playerState!=-1  && event.target.playerInfo.playerState!=3   ){
         
@@ -31,7 +32,7 @@ class VideoDetail extends React.Component{
 
                 if(this.props.video.id.videoId != nextProps.video.id.videoId){
                     console.log("here");
-                    this.setState({duration:this.state.player[0].getDuration()});
+                    this.setState({duration:this.state.player[0].getDuration()/60});
                 }
                
                 if(nextProps.playerState == 1){
