@@ -20,9 +20,7 @@ io.on('connection', socket => {
 
   // just like on the client side, we have a socket.on method that takes a callback function
   socket.on('change color', (color) => {
-    // once we get a 'change color' event from one of our clients, we will send it to the rest of the clients
-    // we make use of the socket.emit method again with the argument given to use from the callback function above
-    console.log('Right here, there is a new message array', color)
+   
     io.sockets.emit('change color', color)
   })
 
@@ -47,8 +45,12 @@ io.on('connection', socket => {
   })
 
 
+  socket.on('newTime', (newTime) => {
+    
+    
+    io.sockets.emit('newTime',newTime)
 
-
+  })
 
   // disconnect is fired when a client leaves the server
   socket.on('disconnect', () => {

@@ -122,7 +122,7 @@ class VideoDetail extends React.Component{
         
                 </div>
 
-                <Slider time={this.state.duration} valueLabelDisplay="auto"/>
+                <Slider newTime={this.props.newTime} time={this.state.duration} valueLabelDisplay="auto"/>
                 <div  style ={{marginTop:'10px' }}class="ui buttons fluid">
 
                     
