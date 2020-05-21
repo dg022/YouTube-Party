@@ -24,13 +24,16 @@ class VideoDetail extends React.Component{
     componentWillReceiveProps =(nextProps)=>{
 
         // This means the requres to change the play status is coming from a differnt person
-
-
+          
+            
 
             if(this.state.player[0]!=null){
-                
-                this.setState({duration:this.state.player[0].getDuration()}); 
-                console.log(this.state.duration); 
+
+                if(this.props.video.id.videoId != nextProps.video.id.videoId){
+                    console.log("here");
+                    this.setState({duration:this.state.player[0].getDuration()});
+                }
+               
                 if(nextProps.playerState == 1){
                    
                   
@@ -80,7 +83,7 @@ class VideoDetail extends React.Component{
        
         this.setState({
           player: player,
-          duration:event.target.getDuration()
+          duration:player[0].getDuration()
         });
       }
 

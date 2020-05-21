@@ -104,7 +104,7 @@ class App extends React.Component {
 // This is a function
 onVideoSelect = (video) =>{
 
-
+    
     const socket = socketIOClient(this.state.endpoint);
     socket.emit('select', video) 
    
