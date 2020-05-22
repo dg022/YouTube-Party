@@ -7,12 +7,11 @@ import CommentDetail from './CommentDetail';
 import socketIOClient from "socket.io-client";
 import Message from './Message'; 
 import MessageList from './MessageList';
+import Login from './Login'; 
 
 
 class App extends React.Component {
     state = {videos: [], selectedVideo: null, data:null,  endpoint: "localhost:4001", color: 'white', messages:[],newTime:0, time:0, playerState:-1, target:[], id: Math.floor(Math.random() * 100000) };
-
-
 
     send = (list) => {
         const socket = socketIOClient(this.state.endpoint);
@@ -28,13 +27,8 @@ class App extends React.Component {
 
 
     }
-   
-      
-    
       componentWillMount = () => {
           const socket = socketIOClient(this.state.endpoint);
-          
-        
           socket.on('change color', (col) => {
               // Here Im updating the messages array, to be the new messages that I have recived
               this.setState({messages:col});
@@ -66,8 +60,6 @@ class App extends React.Component {
 
       }
 
-    
-     
     sendMessage = (message) =>{
         
         // You take this message that is given, and update the state of the messages
@@ -125,7 +117,19 @@ onVideoSelect = (video) =>{
 
 render(){
 
-    
+    if(true){
+
+
+        // Here you need to have the login form, this is also where
+        // will ask the perosn to join a room, or generate a code
+
+        return(
+            <div className="ui segment" >
+            <Login/>
+            </div>
+        );
+
+    }
     
 
     return(
@@ -163,6 +167,9 @@ render(){
                 
                  
                 
+            </div>
+            <div className="ui segment" >
+            <Login/>
             </div>
     
          </div>
