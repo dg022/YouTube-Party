@@ -8,6 +8,8 @@ import socketIOClient from "socket.io-client";
 import Message from './Message'; 
 import MessageList from './MessageList';
 import Login from './Login'; 
+import './App.css';
+
 
 
 class App extends React.Component {
@@ -124,8 +126,10 @@ render(){
         // will ask the perosn to join a room, or generate a code
 
         return(
-            <div className="ui segment" >
-            <Login/>
+            <div className="cont">
+                <div className="ui segment" >
+                <Login/>
+                </div>
             </div>
         );
 
@@ -168,7 +172,7 @@ render(){
                  
                 
             </div>
-            <div className="ui segment" >
+            <div className="ui fluid segment" >
             <Login/>
             </div>
     

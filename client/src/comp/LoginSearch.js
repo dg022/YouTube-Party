@@ -19,7 +19,10 @@ console.log(event);
 render(){
 
 return(
+    <div> 
+        <img src="https://img.icons8.com/doodle/96/000000/youtube-play.png"/>
     <div className="search-bar ui segment">
+        
         <form onSubmit={this.submit}className ="ui form">
             <div className="field" >
             
@@ -38,6 +41,7 @@ return(
             </div>
         </form>
        
+    </div>
     </div>
 );
 
