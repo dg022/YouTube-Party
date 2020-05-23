@@ -108,6 +108,12 @@ class App extends React.Component {
     }
 
 
+enter = (term) => {
+    const socket = socketIOClient(this.state.endpoint);
+    socket.emit('enter', term) 
+}
+
+
 // This is a function
 onVideoSelect = (video) =>{
 
@@ -122,13 +128,13 @@ render(){
     if(true){
 
 
-        // Here you need to have the login form, this is also where
-        // will ask the perosn to join a room, or generate a code
+        // What needs to happen, is on submit, I need to get the code from the login page (call back funciton) then use this code to then attempt to log
+        // Into the room. This is doable as a call back fucntion, then I emit this to the server, from here, not bad.  
 
         return(
             <div className="cont">
                 <div className="ui segment" >
-                <Login/>
+                <Login enter={this.enter}  />
                 </div>
             </div>
         );
