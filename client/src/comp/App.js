@@ -4,19 +4,23 @@ import youtube from '../api/youtube';
 import VideoList from './VideoList';
 import VideoDetail from './VideoDetail';
 import CommentDetail from './CommentDetail';
-import socketIOClient from "socket.io-client";
+import io from 'socket.io-client'
 import Message from './Message'; 
 import MessageList from './MessageList';
 import Login from './Login'; 
 import './App.css';
+const socket = io("http://localhost:4001"); 
 
 
+// There might be some PURE aids with the rooms here
 
 class App extends React.Component {
-    state = {videos: [], selectedVideo: null, data:null,  endpoint: "localhost:4001", color: 'white', messages:[],newTime:0, time:0, playerState:-1, target:[], id: Math.floor(Math.random() * 100000) };
+    state = {videos: [], selectedVideo: null, data:null,  endpoint: "http://localhost:4001", color: 'white', messages:[],newTime:0, time:0, playerState:-1, target:[], id: Math.floor(Math.random() * 100000), room:null };
+    
 
     send = (list) => {
-        const socket = socketIOClient(this.state.endpoint);
+    
+       
         //You are sendign the array of messages
         socket.emit('change color', list) 
       }
@@ -24,13 +28,15 @@ class App extends React.Component {
     // When a user makes a search query, it is emmited to the other sockets, then once it is recived again, it will be rendered
     EmitSearch = (result) =>{
        
-        const socket = socketIOClient(this.state.endpoint);
+       ; 
+        
         socket.emit('search', result) 
 
 
     }
       componentWillMount = () => {
-          const socket = socketIOClient(this.state.endpoint);
+         
+         
           socket.on('change color', (col) => {
               // Here Im updating the messages array, to be the new messages that I have recived
               this.setState({messages:col});
@@ -38,7 +44,7 @@ class App extends React.Component {
 
           // Setting the state with the search result
           socket.on('search', (result) => {
-            
+            console.log("theery reached back here")
             this.setState({
                 videos: result.data.items,
                 selectedVideo:result.data.items[0]
@@ -59,6 +65,11 @@ class App extends React.Component {
             this.setState({newTime:newTime})
         })
 
+        socket.on('enter', (term) => {
+            console.log("Ive been reached")
+            this.setState({room:term})
+        })
+
 
       }
 
@@ -74,7 +85,7 @@ class App extends React.Component {
 
     pressPlay = (state) => {
 
-        const socket = socketIOClient(this.state.endpoint);
+      
         socket.emit('play', state)
 
 
@@ -83,7 +94,7 @@ class App extends React.Component {
 
     newTime = (newTime) => {
 
-        const socket = socketIOClient(this.state.endpoint);
+      
         socket.emit('newTime', newTime)
 
 
@@ -93,7 +104,7 @@ class App extends React.Component {
     search = async (term)=>{
         //The SearchBar calls the search funciton with the term
         // And here we will make the api request
-
+        
         const result = await youtube.get("/search", {
             params: {
               q: term,
@@ -102,14 +113,15 @@ class App extends React.Component {
               maxResults: 5,
               key: 'AIzaSyBSAzBSy4bhfG8JaCmptEDdreLpQXdAAbQ'            }
           });
-         
+          
+          console.log(result);
           this.EmitSearch(result);
           
     }
 
 
 enter = (term) => {
-    const socket = socketIOClient(this.state.endpoint);
+   ; 
     socket.emit('enter', term) 
 }
 
@@ -118,14 +130,14 @@ enter = (term) => {
 onVideoSelect = (video) =>{
 
     
-    const socket = socketIOClient(this.state.endpoint);
+ 
     socket.emit('select', video) 
    
 }
 
 render(){
 
-    if(true){
+    if(this.state.room == null){
 
 
         // What needs to happen, is on submit, I need to get the code from the login page (call back funciton) then use this code to then attempt to log
@@ -178,9 +190,7 @@ render(){
                  
                 
             </div>
-            <div className="ui fluid segment" >
-            <Login/>
-            </div>
+           
     
          </div>
     );
