@@ -34,7 +34,7 @@ change = (event) =>{
                    
                         
                                <div> 
-                                        <img src="https://img.icons8.com/doodle/96/000000/youtube-play.png"/>
+                               <img src="https://img.icons8.com/clouds/150/000000/youtube-play.png"/>
                                     <div className="search-bar ui segment">
                                         
                                         <form onSubmit={this.submit}className ="ui form">
@@ -61,8 +61,8 @@ change = (event) =>{
 
                   
                     
-                            <div onClick={this.submit} class="ui fluid large red submit button">Join Session</div>
-                            <div style ={{marginTop:'10px' }}class="ui fluid large red submit button">Create Session</div>
+                            <div style ={{marginTop:'10px' }} onClick={this.submit} class="ui fluid large red submit button">Join Session</div>
+                            <div style ={{marginTop:'10px' }}class="ui fluid large white submit button">Create Session</div>
 
                     
 

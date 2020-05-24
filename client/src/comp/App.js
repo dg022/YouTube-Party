@@ -22,15 +22,15 @@ class App extends React.Component {
     
        
         //You are sendign the array of messages
-        socket.emit('change color', list) 
+        socket.emit('change color', list, this.state.room) 
       }
 
     // When a user makes a search query, it is emmited to the other sockets, then once it is recived again, it will be rendered
     EmitSearch = (result) =>{
        
-       ; 
+       
         
-        socket.emit('search', result) 
+        socket.emit('search', result, this.state.room);
 
 
     }
@@ -86,7 +86,7 @@ class App extends React.Component {
     pressPlay = (state) => {
 
       
-        socket.emit('play', state)
+        socket.emit('play', state, this.state.room)
 
 
     }
@@ -95,7 +95,7 @@ class App extends React.Component {
     newTime = (newTime) => {
 
       
-        socket.emit('newTime', newTime)
+        socket.emit('newTime', newTime, this.state.room)
 
 
     }
@@ -131,7 +131,7 @@ onVideoSelect = (video) =>{
 
     
  
-    socket.emit('select', video) 
+    socket.emit('select', video, this.state.room) 
    
 }
 
