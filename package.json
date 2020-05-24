@@ -18,6 +18,7 @@
   "homepage": "https://github.com/dg022/YouTubeClone#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "mongoose": "^5.9.15",
     "socket.io": "^2.3.0"
   }
 }
