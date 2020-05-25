@@ -20,6 +20,12 @@ change = (event) =>{
     
     };
 
+    createRoom = () => {
+
+        this.props.createRoom(); 
+
+    };
+
 
     render(){
     return(
@@ -62,7 +68,7 @@ change = (event) =>{
                   
                     
                             <div style ={{marginTop:'10px' }} onClick={this.submit} class="ui fluid large red submit button">Join Session</div>
-                            <div style ={{marginTop:'10px' }}class="ui fluid large white submit button">Create Session</div>
+                            <div style ={{marginTop:'10px' }} onClick={this.createRoom}  class="ui fluid large white submit button">Create Session</div>
 
                     
 

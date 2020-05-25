@@ -54,20 +54,14 @@ io.on('connection', socket => {
   console.log('New client connected')
 
   socket.on('enter', async (term) => {
-
-
     // If it is in the database, then allow the socket to join the room
-    
       if(await Codes.exists({ code: term })){
 
         // Code exists, allow the user into the room
         console.log("The room name exists.. joining room")
         socket.join(term);
         io.to(term).emit("enter", term); 
-
-
       }else{
-
         // Code does not exist, Alert to the user who emmited, that 
         // They entered a code that does not exist
 
@@ -78,25 +72,39 @@ io.on('connection', socket => {
             //}else{
               //  console.log('>>>>>> ' + JSON.stringify(result, null, 4));
           // }
-        //});
-
+        //}); 
         socket.emit("enter", "FAIL"); 
         console.log("ROOM DOES NOT EXIST");
+      }  
+
+});
 
 
-
-
-
-
-
-      }
-
-
-
-   
+socket.on('createRoom', async () => {
+  
+  console.log("right here")
+  //createRoom is called, when the user clciks the create Session button. 
+  // Here we need to generate some kind of number, and set it as the code. This is the roomName/code to join 
+      var term =  Math.floor(Math.random() * 100000); 
+      var newUser = new Codes({"code":term}); // you also need here to define _id since, since you set it as required.
+      newUser.save(function(err, result){
+          if(err){
+              console.log('>>>>>> Error');
+          }else{
+              console.log('>>>>>> ' + JSON.stringify(result, null, 4));
+         }
+      }); 
+      
+      socket.join(term);
+      io.to(term).emit("enter", term); 
     
 
 });
+
+
+
+
+
 
         socket.on('change color', (color, room) => {
           io.to(room).emit('change color', color)

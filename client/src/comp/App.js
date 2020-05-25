@@ -132,8 +132,18 @@ class App extends React.Component {
 
 
 enter = (term) => {
-   ; 
-    socket.emit('enter', term) 
+   
+    console.log(term); 
+    socket.emit('enter', term); 
+}
+
+createRoom = () => {
+    // When the create room session button is pressed, we want to emit that we want to create a new room
+
+    socket.emit('createRoom');
+
+
+
 }
 
 
@@ -163,7 +173,7 @@ render(){
                     <div className="cont">
                         <div className="ui segment" >
         
-                        <Login enter={this.enter}  />
+                        <Login enter={this.enter} createRoom={this.createRoom} />
                         </div>
 
                         <div class="ui negative message">
@@ -182,8 +192,7 @@ render(){
             return(
                 <div className="cont">
                         <div className="ui segment" >
-        
-                        <Login enter={this.enter}  />
+                        <Login enter={this.enter} createRoom={this.createRoom} />
                         </div>
                 </div>
 
