@@ -3,7 +3,7 @@ const express = require('express')
 const http = require('http')
 const socketIO = require('socket.io')
 var mongoose = require("mongoose");
-const config = require("config.js"); 
+const config = require("./config/config.js"); 
 mongoose.connect(config.KEY, { useNewUrlParser: true });
 
 var Schema    =   mongoose.Schema;
