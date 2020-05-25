@@ -139,7 +139,7 @@ enter = (term) => {
 
 createRoom = () => {
     // When the create room session button is pressed, we want to emit that we want to create a new room
-
+    console.log("Ive been clic")
     socket.emit('createRoom');
 
 
@@ -161,45 +161,57 @@ close = ( ) => {
     this.setState({error:0}); 
 }
 
+
+ErrorDecider = () =>{
+
+
+    if(this.state.error == 1){
+        return(
+            <div className="cont">
+                <div className="ui segment" >
+
+                <Login enter={this.enter} createRoom={this.createRoom} />
+                </div>
+
+                <div class="ui negative message">
+                        <i onClick={this.close} class="close icon"></i>
+                        <div class="header">
+                            Invalid room code!
+                        </div>
+                        <p>Try again, or create new session. 
+                        </p></div>
+
+
+            </div>
+        );
+}else{
+
+    return(
+        <div className="cont">
+                <div className="ui segment" >
+                <Login enter={this.enter} createRoom={this.createRoom} />
+                </div>
+        </div>
+
+    );
+
+
+}
+
+
+
+
+
+
+
+}
+
 render(){
 
     if(this.state.room == null){
 
-
-        // What needs to happen, is on submit, I need to get the code from the login page (call back funciton) then use this code to then attempt to log
-        // Into the room. This is doable as a call back fucntion, then I emit this to the server, from here, not bad.  
-        if(this.state.error == 1){
-                return(
-                    <div className="cont">
-                        <div className="ui segment" >
-        
-                        <Login enter={this.enter} createRoom={this.createRoom} />
-                        </div>
-
-                        <div class="ui negative message">
-                                <i onClick={this.close} class="close icon"></i>
-                                <div class="header">
-                                    Invalid room code!
-                                </div>
-                                <p>Try again, or create new session. 
-                                </p></div>
-
-
-                    </div>
-                );
-        }else{
-
-            return(
-                <div className="cont">
-                        <div className="ui segment" >
-                        <Login enter={this.enter} createRoom={this.createRoom} />
-                        </div>
-                </div>
-
-            );
-
-
-        }
+        return this.ErrorDecider(); 
+    
 
     }
     
