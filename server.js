@@ -2,6 +2,35 @@
 const express = require('express')
 const http = require('http')
 const socketIO = require('socket.io')
+var mongoose = require("mongoose");
+const config = require("config.js"); 
+mongoose.connect(config.KEY, { useNewUrlParser: true });
+
+var Schema    =   mongoose.Schema;
+var Users = new Schema({ // example from docs
+    code         :   {
+        type        :   String,
+        require     :   true
+    }
+});
+
+var Codes = mongoose.model('Codes', Users);
+
+//var newUser = new UsersModel({"code":"A"}); // you also need here to define _id since, since you set it as required.
+//newUser.save(function(err, result){
+  //  if(err){
+    //    console.log('>>>>>> Error');
+    //}else{
+      //  console.log('>>>>>> ' + JSON.stringify(result, null, 4));
+   // }
+//});
+
+Codes.deleteOne({ code: 'A' }, function (err) {
+  if (err) console.log(err); 
+  // deleted at most one tank document
+});
+
+
 
 // our localhost port
 const port = 4001
@@ -13,6 +42,34 @@ const server = http.createServer(app)
 
 // This creates our socket using the instance of the server
 const io = socketIO(server)
+
+
+//mongoose.connect("mongodb+srv://davidg022:Peterspider0136808251441!@cluster0-sveez.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser: true })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // This is what the socket.io syntax is like, we will work this later
 io.on('connection', socket => {
