@@ -9,7 +9,7 @@ import Message from './Message';
 import MessageList from './MessageList';
 import Login from './Login'; 
 import './App.css';
-const socket = io("http://localhost:4001"); 
+const socket = io("/"); 
 
 
 // There might be some PURE aids with the rooms here
@@ -184,16 +184,16 @@ ErrorDecider = () =>{
 
             </div>
         );
-}else{
+            }else{
 
-    return(
-        <div className="cont">
-                <div className="ui segment" >
-                <Login enter={this.enter} createRoom={this.createRoom} />
-                </div>
-        </div>
+                return(
+                    <div className="cont">
+                            <div className="ui segment" >
+                            <Login enter={this.enter} createRoom={this.createRoom} />
+                            </div>
+                    </div>
 
-    );
+                );
 
 
 }
@@ -209,10 +209,7 @@ ErrorDecider = () =>{
 render(){
 
     if(this.state.room == null){
-
         return this.ErrorDecider(); 
-    
-
     }
     
 

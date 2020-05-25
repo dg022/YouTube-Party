@@ -36,7 +36,7 @@ Codes.deleteOne({ code: 'A' }, function (err) {
 
 
 // our localhost port
-const port = 4001
+const PORT = 4001 || process.env.PORT
 
 const app = express()
 
@@ -133,4 +133,4 @@ socket.on('createRoom', async () => {
         })
 })
 
-server.listen(port, () => console.log(`Listening on port ${port}`))
+server.listen(PORT, () => console.log(`Listening on port ${PORT}`))
