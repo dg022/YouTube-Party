@@ -8,6 +8,10 @@
     "client": "npm run start --prefix client",
     "start": "concurrently \"npm run server\" \"npm run client \""
   },
+  "engines": {
+    "npm": "6.9.0",
+    "node": "10.16.3"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/dg022/YouTubeClone.git"
