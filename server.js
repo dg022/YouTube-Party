@@ -36,7 +36,7 @@ Codes.deleteOne({ code: 'A' }, function (err) {
 
 
 // our localhost port
-const PORT = 4001 || process.env.PORT
+const PORT = process.env.PORT || 4001 
 
 const app = express()
 
