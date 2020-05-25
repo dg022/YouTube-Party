@@ -15,7 +15,7 @@ const socket = io("http://localhost:4001");
 // There might be some PURE aids with the rooms here
 
 class App extends React.Component {
-    state = {videos: [], selectedVideo: null, data:null,  endpoint: "http://localhost:4001", color: 'white', messages:[],newTime:0, time:0, playerState:-1, target:[], id: Math.floor(Math.random() * 100000), room:null };
+    state = {videos: [], selectedVideo: null, data:null,  endpoint: "http://localhost:4001", color: 'white', messages:[],newTime:0, time:0, playerState:-1, target:[], id: Math.floor(Math.random() * 100000), room:null, error:0 };
     
 
     send = (list) => {
@@ -71,6 +71,10 @@ class App extends React.Component {
             }else{
                 // Here you attempted to enter a code that doesnt exist
                 console.log("The code you have entered does not exist in the data base, please try again"); 
+
+                // IF the code doesnt work, we want to display a message, with an x button, that indciates the wrong code was used
+                this.setState({error:1}); 
+
 
 
 
@@ -142,6 +146,11 @@ onVideoSelect = (video) =>{
    
 }
 
+close = ( ) => {
+
+    this.setState({error:0}); 
+}
+
 render(){
 
     if(this.state.room == null){
@@ -149,14 +158,39 @@ render(){
 
         // What needs to happen, is on submit, I need to get the code from the login page (call back funciton) then use this code to then attempt to log
         // Into the room. This is doable as a call back fucntion, then I emit this to the server, from here, not bad.  
+        if(this.state.error == 1){
+                return(
+                    <div className="cont">
+                        <div className="ui segment" >
+        
+                        <Login enter={this.enter}  />
+                        </div>
 
-        return(
-            <div className="cont">
-                <div className="ui segment" >
-                <Login enter={this.enter}  />
+                        <div class="ui negative message">
+                                <i onClick={this.close} class="close icon"></i>
+                                <div class="header">
+                                    Invalid room code!
+                                </div>
+                                <p>Try again, or create new session. 
+                                </p></div>
+
+
+                    </div>
+                );
+        }else{
+
+            return(
+                <div className="cont">
+                        <div className="ui segment" >
+        
+                        <Login enter={this.enter}  />
+                        </div>
                 </div>
-            </div>
-        );
+
+            );
+
+
+        }
 
     }
     
