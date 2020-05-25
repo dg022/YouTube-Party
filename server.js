@@ -15,9 +15,11 @@ var Users = new Schema({ // example from docs
     }
 });
 
+
+// This is equivlnet to the TANKl 
 var Codes = mongoose.model('Codes', Users);
 
-//var newUser = new UsersModel({"code":"A"}); // you also need here to define _id since, since you set it as required.
+//var newUser = new Codes({"code":"A"}); // you also need here to define _id since, since you set it as required.
 //newUser.save(function(err, result){
   //  if(err){
     //    console.log('>>>>>> Error');
@@ -47,43 +49,51 @@ const io = socketIO(server)
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // This is what the socket.io syntax is like, we will work this later
 io.on('connection', socket => {
   console.log('New client connected')
 
   socket.on('enter', async (term) => {
 
-    socket.join(term);
-    io.to(term).emit("enter", term); 
+
+    // If it is in the database, then allow the socket to join the room
+    
+      if(await Codes.exists({ code: term })){
+
+        // Code exists, allow the user into the room
+        console.log("The room name exists.. joining room")
+        socket.join(term);
+        io.to(term).emit("enter", term); 
+
+
+      }else{
+
+        // Code does not exist, Alert to the user who emmited, that 
+        // They entered a code that does not exist
+
+        //var newUser = new Codes({"code":term}); // you also need here to define _id since, since you set it as required.
+        //newUser.save(function(err, result){
+            //if(err){
+              //  console.log('>>>>>> Error');
+            //}else{
+              //  console.log('>>>>>> ' + JSON.stringify(result, null, 4));
+          // }
+        //});
+
+        socket.emit("enter", "FAIL"); 
+        console.log("ROOM DOES NOT EXIST");
+
+
+
+
+
+
+
+      }
+
+
 
    
-      // What needs to be done, is pass in the room as a parameter, so them 
-      // IT knows what to send over
     
 
 });

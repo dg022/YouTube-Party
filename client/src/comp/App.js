@@ -66,8 +66,15 @@ class App extends React.Component {
         })
 
         socket.on('enter', (term) => {
-            console.log("Ive been reached")
+            if(term!="FAIL"){
             this.setState({room:term})
+            }else{
+                // Here you attempted to enter a code that doesnt exist
+                console.log("The code you have entered does not exist in the data base, please try again"); 
+
+
+
+            }
         })
 
 
