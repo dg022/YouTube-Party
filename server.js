@@ -15,7 +15,7 @@ var Users = new Schema({ // example from docs
     }
 });
 
-
+var a = 1; 
 // This is equivlnet to the TANKl 
 var Codes = mongoose.model('Codes', Users);
 
