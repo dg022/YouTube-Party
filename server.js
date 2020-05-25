@@ -4,6 +4,7 @@ const http = require('http')
 const socketIO = require('socket.io')
 var mongoose = require("mongoose");
 const config = require("./config/config.js"); 
+
 mongoose.connect(config.KEY, { useNewUrlParser: true });
 
 var Schema    =   mongoose.Schema;
@@ -44,7 +45,7 @@ const server = http.createServer(app)
 const io = socketIO(server)
 
 
-//mongoose.connect("mongodb+srv://davidg022:Peterspider0136808251441!@cluster0-sveez.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser: true })
+
 
 
 
