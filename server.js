@@ -5,6 +5,7 @@ const socketIO = require('socket.io')
 var mongoose = require("mongoose");
 const config = require("./config/config.js"); 
 
+
 mongoose.connect(config.KEY, { useNewUrlParser: true });
 
 var Schema    =   mongoose.Schema;
@@ -46,7 +47,7 @@ const server = http.createServer(app)
 // This creates our socket using the instance of the server
 const io = socketIO(server)
 
-
+app.get('/', (req, res, next) => res.sendFile(__dirname + './index.html'));
 
 
 // This is what the socket.io syntax is like, we will work this later
