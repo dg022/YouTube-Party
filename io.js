@@ -6,6 +6,26 @@ var mongoose = require("mongoose");
 const config = require("./config/config.js"); 
 
 
+const bodyParser = require('body-parser')
+const path = require('path');
+var app = express()
+  , server = require('http').createServer(app)
+  , io =  require('socket.io').listen(server)
+
+app.use(express.static(path.join(__dirname, 'build')));
+
+app.get('/ping', function (req, res) {
+ return res.send('pong');
+});
+
+app.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
+
+
+
+
+
 mongoose.connect(config.KEY, { useNewUrlParser: true });
 
 var Schema    =   mongoose.Schema;
@@ -39,13 +59,12 @@ var Codes = mongoose.model('Codes', Users);
 // our localhost port
 const PORT = process.env.PORT || 8080;
 
-const app = express()
 
 // our server instance
-const server = http.createServer(app)
+
 
 // This creates our socket using the instance of the server
-const io = socketIO(server)
+
 
 
 

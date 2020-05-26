@@ -7,7 +7,7 @@
     "io": "node io.js",
     "server": "node server.js",
     "client": "npm run start --prefix client",
-    "start": "concurrently \"npm run server\" \"npm run client \" \"npm run io\""
+    "start": "concurrently  \"npm run client \" \"npm run io\"   "
   },
   "engines": {
     "npm": "6.9.0",
