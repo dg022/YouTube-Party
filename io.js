@@ -29,15 +29,15 @@ var Codes = mongoose.model('Codes', Users);
    // }
 //});
 
-Codes.deleteOne({ code: 'A' }, function (err) {
-  if (err) console.log(err); 
+//Codes.deleteOne({ code: 'A' }, function (err) {
+  //if (err) console.log(err); 
   // deleted at most one tank document
-});
+//});
 
 
 
 // our localhost port
-const PORT = process.env.PORT || 4001 
+const PORT = process.env.PORT || 8080;
 
 const app = express()
 
@@ -47,7 +47,7 @@ const server = http.createServer(app)
 // This creates our socket using the instance of the server
 const io = socketIO(server)
 
-app.get('/', (req, res, next) => res.sendFile('./client/public/index.html'));
+
 
 
 // This is what the socket.io syntax is like, we will work this later

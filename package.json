@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "io": "node io.js",
     "server": "node server.js",
     "client": "npm run start --prefix client",
-    "start": "concurrently \"npm run server\" \"npm run client \""
+    "start": "concurrently \"npm run server\" \"npm run client \" \"npm run io\""
   },
   "engines": {
     "npm": "6.9.0",
