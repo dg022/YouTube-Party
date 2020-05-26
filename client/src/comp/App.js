@@ -15,7 +15,7 @@ const socket = io("http://localhost:4001");
 // There might be some PURE aids with the rooms here
 
 class App extends React.Component {
-    state = {videos: [], selectedVideo: null, data:null,  endpoint: "http://localhost:4001", color: 'white', messages:[],newTime:0, time:0, playerState:-1, target:[], id: Math.floor(Math.random() * 100000), room:null, error:0 };
+    state = {videos: [], selectedVideo: null, data:null,  endpoint: "/", color: 'white', messages:[],newTime:0, time:0, playerState:-1, target:[], id: Math.floor(Math.random() * 100000), room:null, error:0 };
     
 
     send = (list) => {
