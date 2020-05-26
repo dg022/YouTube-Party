@@ -9,7 +9,7 @@ import Message from './Message';
 import MessageList from './MessageList';
 import Login from './Login'; 
 import './App.css';
-const socket = io("/"); 
+const socket = io("https://agile-mountain-68964.herokuapp.com/"); 
 
 
 // There might be some PURE aids with the rooms here
