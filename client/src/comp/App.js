@@ -256,7 +256,7 @@ EnterName = () => {
         return(
 
             <div className="ui container" style ={{marginTop:'10px' }}>
-    
+                <h4 className="ui header"> ROOM CODE: {this.state.room}</h4>
                 <SearchBar Search={this.search} />
                 
                 
