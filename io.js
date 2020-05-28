@@ -33,7 +33,14 @@ var Users = new Schema({ // example from docs
     code         :   {
         type        :   String,
         require     :   true
-    }
+    }, 
+
+    members         :   {
+      type        :   [String],
+      require     :   true
+  },
+
+
 });
 
 var a = 1; 
@@ -106,7 +113,7 @@ socket.on('createRoom', async () => {
   //createRoom is called, when the user clciks the create Session button. 
   // Here we need to generate some kind of number, and set it as the code. This is the roomName/code to join 
       var term =  Math.floor(Math.random() * 100000); 
-      var newUser = new Codes({"code":term}); // you also need here to define _id since, since you set it as required.
+      var newUser = new Codes({"code":term, "members":[]}); // you also need here to define _id since, since you set it as required.
       newUser.save(function(err, result){
           if(err){
               console.log('>>>>>> Error');
@@ -121,8 +128,23 @@ socket.on('createRoom', async () => {
 
 });
 
+      // Emit newMember 
+      socket.on('newMember', async (name, room) =>{
 
+        // Right here, we want to make a query to the room, get the room and memers arraym, push the new member, and give it back as an array
 
+        const doc = await Codes.findOne({code:room});
+        const newList  = doc.members; 
+        newList.push(name); 
+        doc.members =  newList;
+        console.log(newList); 
+        await doc.save(); 
+        
+
+        // Here we have pushed a newMember to the database
+
+        io.to(room).emit('newMember', newList)
+      })
 
 
 

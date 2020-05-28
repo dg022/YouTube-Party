@@ -9,11 +9,30 @@ state = {term: ''};
 this.setState({term:event.target.value});
 };
 
+
+ timeNow = () => {
+    var d = new Date(),
+      h = (d.getHours()<10?'0':'') + d.getHours(),
+      m = (d.getMinutes()<10?'0':'') + d.getMinutes();
+    return h + ':' + m;
+  }
+
+
 submit = (event) =>{
 
 event.preventDefault(); 
 
-this.props.msg(this.state.term);
+// Here you want to pass in a object 
+// Pass in the name of the user
+// Pass in the current time --> Dont know how to do that
+
+var obj = {
+"Content": this.state.term, 
+"Name": this.props.name,
+"Time":this.timeNow()
+};
+
+this.props.msg(obj);
 
 
 

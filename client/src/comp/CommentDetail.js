@@ -12,13 +12,10 @@ return(
                 <img src={Faker.image.avatar()}/>
                 </a>
                 <div className="content">
-                <a className="author"> {props.author}    </a>
+                <a className="author"> {props.name}    </a>
                 <div class="metadata">
-                    <div className="date">2 days ago</div>
-                    <div className="rating">
-                    <i className="star icon"></i>
-                    5 Faves
-                    </div>
+                <div className="Date">{props.time}</div>
+                    
                 </div>
                 <div class="text">
                     {props.content} 

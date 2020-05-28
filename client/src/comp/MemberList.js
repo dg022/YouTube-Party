@@ -2,12 +2,16 @@
 import React from 'react'; 
 import CommentDetail from './CommentDetail';
 
-const MessageList = (props) => {
+const MemberList = (props) => {
+    
   const images = props.msglist.map(msg => {
-    return <CommentDetail content = {msg.Content} name ={msg.Name} time={msg.Time} />;
+
+
+    return <CommentDetail content = {"joined"} name ={msg}  />;
   });
 
   return <div className="ui comments"> {images}</div>;
+
 };
 
-export default MessageList;
+export default MemberList;
