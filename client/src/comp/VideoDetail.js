@@ -8,18 +8,62 @@ import SearchBar from './SearchBar';
 //props.video.id.videoId ---> This  is the link to the video
 class VideoDetail extends React.Component{
 
-    state = {id:0, player:[], duration:0}; 
+    state = {id:0, player:[], duration:0, started:0}; 
+
+    //internalChange = false; 
+    messageSent = false; 
+    interalChange = -1; 
     
-    //videochange = (event) => {Y
+    videochange = (event) => {
 
+    // Here you need to emit a event that 
 
-      //  if( event.target.playerInfo.playerState!=-1  && event.target.playerInfo.playerState!=3   ){
+        //if( event.target.playerInfo.playerState!=-1  && event.target.playerInfo.playerState!=3  && this.internalChange!=true ){
         
-        //this.props.play(event.target.playerInfo.playerState);
 
-        //}
+        //This.props.play will need to emit the current player state and the time
+        //this.props.play(event.target.playerInfo.playerState,  event.target.playerInfo.currentTime);
+
+        //console.log(event.target.playerInfo);
+        //console.log(event.target.playerInfo);
+
+
+        //}else if(this.internalChange==true){
+            //this.internalChange = false; 
+       // }
        
-    //}
+    }
+
+    onPlay =(event)=>{
+      
+      if(this.internalChange == -1) {
+        this.props.play(event.target.playerInfo.currentTime, this.state.id);
+        this.messageSent = true; 
+        console.log("I was played!"); 
+      }else{
+
+        this.internalChange = -1;  
+      }
+
+    }
+
+    onPause = (event) => {
+
+        
+
+
+        if(this.internalChange == -1) {
+          this.props.pause(this.state.id); 
+          this.messageSent = true; 
+          console.log("I was paused!"); 
+        }else{
+  
+          this.internalChange = -1; 
+        }
+  
+
+
+    }
 
     //nextProps that are being passed 
     componentWillReceiveProps =(nextProps)=>{
@@ -27,27 +71,37 @@ class VideoDetail extends React.Component{
         // This means the requres to change the play status is coming from a differnt person
           
             // Here you need to add the logic to deal with the a slider chage here
+            
+            if(this.messageSent!=true){
 
             if(this.state.player[0]!=null){
+              console.log("I iniated the change and I'm still getting this message")
+                this.internalChange = 0; 
 
-                if(this.props.video.id.videoId != nextProps.video.id.videoId){
-                    console.log("here");
-                    this.setState({duration:this.state.player[0].getDuration()});
-                }
 
-                if(this.props.updatedTime!= nextProps.updatedTime){
+                //This is using the custom made slider
+                //if(this.props.updatedTime!= nextProps.updatedTime){
              
-                    this.state.player[0].seekTo(this.props.updatedTime);
-                }
+                    //this.state.player[0].seekTo(this.props.updatedTime);
+                //}
+
+                //if(this.props.time!= nextProps.time){
+             
+                    //this.state.player[0].seekTo(this.props.time);
+               // }
+
+
                
-                if(nextProps.playerState == 1){
+                if(nextProps.PlayerState == "PLAY"){
                    
-                  
-                    this.state.player[0].playVideo(); 
+            
+                    this.state.player[0].seekTo(nextProps.time).playVideo();
+                   
+
 
                 }
 
-                if(nextProps.playerState == 2){
+                if(nextProps.PlayerState == "PAUSE"){
                 
                     this.state.player[0].pauseVideo();
                 }
@@ -55,7 +109,9 @@ class VideoDetail extends React.Component{
 
             
             }
-
+          }else{
+            this.messageSent = false; 
+          }
             // -1 = unstarted
             // 0 = ended 
             // 1 = playing 
@@ -77,7 +133,8 @@ class VideoDetail extends React.Component{
 
         // This is only ever called once
         
-        this.setState({id:this.props.id}); 
+        //this.setState({id:Math.floor(Math.random() * 100000)}); 
+        console.log(this.state.id); 
         
       }
 
@@ -89,7 +146,8 @@ class VideoDetail extends React.Component{
        
         this.setState({
           player: player,
-          duration:player[0].getDuration()
+          duration:player[0].getDuration(), 
+          id:this.props.id
         });
       }
 
@@ -105,7 +163,6 @@ class VideoDetail extends React.Component{
             // https://developers.google.com/youtube/player_parameters
         
             enablejsapi:1,
-            controls:0
           },
         };
 
@@ -123,7 +180,7 @@ class VideoDetail extends React.Component{
 
                 
                 <div  className="ui embed">
-                <YouTube  onStateChange={this.videochange}   onReady={this.Ready}     videoId={this.props.video.id.videoId} opts={opts}  />;
+                <YouTube  onStateChange={this.videochange}  onPlay={this.onPlay} onPause={this.onPause} onReady={this.Ready}     videoId={this.props.video.id.videoId} opts={opts}  />;
         
                 </div>
 

@@ -12,13 +12,25 @@ import './App.css';
 import MemberList from './MemberList'; 
 //"https://agile-mountain-68964.herokuapp.com/"
 //"http://localhost:8080"
-const socket = io("https://agile-mountain-68964.herokuapp.com/"); 
+const socket = io("http://localhost:8080"); 
 //"https://agile-mountain-68964.herokuapp.com/"
 
 // There might be some PURE aids with the rooms here
 
 class App extends React.Component {
-    state = {videos: [], selectedVideo: null, data:null,  endpoint: "/", color: 'white', members:[], messages:[],newTime:0, time:0, playerState:-1, target:[], id: Math.floor(Math.random() * 100000), room:null, error:0 , name:null};
+    state = {videos: [], 
+        selectedVideo:null, 
+        data:null, 
+        id:Math.floor(Math.random() * 100000), 
+         members:[], 
+         messages:[],
+         newTime:0, 
+         time:0, 
+         PlayerState:"",
+         target:[], 
+         room:null, 
+         error:0 , 
+         name:null};
     
 
     send = (list) => {
@@ -60,8 +72,12 @@ class App extends React.Component {
 
         })
 
-        socket.on('play', (state) => {
-            this.setState({playerState:state})
+        socket.on('play', (time, id) => {
+            this.setState({time:time, PlayerState:"PLAY", id:id})
+        })
+
+        socket.on('pause', (id) => {
+            this.setState({PlayerState:"PAUSE", id:id})
         })
 
         socket.on('newTime', (newTime) => {
@@ -115,13 +131,15 @@ class App extends React.Component {
     }
 
 
-    pressPlay = (state) => {
-
-      
-        socket.emit('play', state, this.state.room)
-
-
+    pressPlay = (time, id) => {
+      // From here it will emit to all the other sokcets, execpt this one
+        socket.emit('play',time, id,   this.state.room)
     }
+
+    pressPause = (id) => {
+        // From here it will emit to all the other sokcets, execpt this one
+          socket.emit('pause', id, this.state.room)
+      }
 
 
     newTime = (newTime) => {
@@ -266,7 +284,7 @@ EnterName = () => {
     
                         <div  className="eleven wide column">
                             
-                            <VideoDetail  updatedTime={this.state.newTime} newTime ={this.newTime}id={this.state.id} time ={this.state.time} playerState={this.state.playerState} play={this.pressPlay} video={this.state.selectedVideo}/>
+                            <VideoDetail  PlayerState={this.state.PlayerState}   updatedTime={this.state.newTime} newTime ={this.newTime} id={this.state.id} time ={this.state.time}  pause={this.pressPause}play={this.pressPlay} video={this.state.selectedVideo}/>
                             <h4 className="ui header"> Chat Room</h4>
                                 
                                     {this.state.data}

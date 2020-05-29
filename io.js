@@ -162,9 +162,16 @@ socket.on('createRoom', async () => {
           io.to(room).emit('select', video)
         })
 
-        socket.on('play', (state, room) => {
-          io.to(room).emit('play',state)
+        socket.on('play', (time,id, room) => {
+          //io.to(room).emit('play',state, time)
+          socket.to(room).emit('play', time, id);
         })
+
+        socket.on('pause', (id, room) => {
+          //io.to(room).emit('play',state, time)
+          socket.to(room).emit('pause', id);
+        })
+
 
         socket.on('newTime', (newTime, room) => {
           io.to(room).emit('newTime',newTime)
