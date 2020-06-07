@@ -145,38 +145,53 @@ socket.on('createRoom', async () => {
 
         io.to(room).emit('newMember', newList)
       })
-
-
-
         socket.on('change color', (color, room) => {
           io.to(room).emit('change color', color)
         })
-        
+        socket.on('n', (selectedVideo, room) => {
+          console.log("HERE"); 
+          socket.to(room).emit('n', selectedVideo); 
+        })
+        socket.on('newMemberPause', (room) => {
+         
+          socket.to(room).emit('newMemberPause'); 
+        })
+
+
+        socket.on('memberTime', (time, room) => {
+         
+          socket.to(room).emit('memberTime', time); 
+        })
+        socket.on('joined', (room) => {
+         
+          io.to(room).emit('joined');
+        })
    
         socket.on('search', (result, room) => {
          
           io.to(room).emit('search', result)
+        }) 
+        socket.on('onChange', (state, room) => {
+         
+          io.to(room).emit('onChange', state)
         })
+
+
 
         socket.on('select', (video, room) => {
           io.to(room).emit('select', video)
         })
-
         socket.on('play', (time,id, room) => {
           //io.to(room).emit('play',state, time)
           socket.to(room).emit('play', time, id);
         })
-
         socket.on('pause', (id, room) => {
           //io.to(room).emit('play',state, time)
           socket.to(room).emit('pause', id);
         })
-
-
         socket.on('newTime', (newTime, room) => {
           io.to(room).emit('newTime',newTime)
         })
-       
         socket.on('disconnect', () => {
           console.log('user disconnected')
         })

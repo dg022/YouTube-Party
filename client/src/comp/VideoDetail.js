@@ -6,112 +6,185 @@ import SearchBar from './SearchBar';
 // You need to pass a funciton to VideoDetail 
 // Which will then be called from inside, 
 //props.video.id.videoId ---> This  is the link to the video
+
+
 class VideoDetail extends React.Component{
 
-    state = {id:0, player:[], duration:0, started:0}; 
+    state = {id:0, player:[], duration:0}; 
 
     //internalChange = false; 
-    messageSent = false; 
-    interalChange = -1; 
     
-    videochange = (event) => {
+    internalChange = false
+    started  = false; 
+    newMemberPause = false;
+    internalStart = 1; 
+    
+    videochange =(event)=> {
 
-    // Here you need to emit a event that 
+      // Here you need to emit a event that 
+          
+      if(event.target.playerInfo.playerState == 3 && this.started == false){
+        this.props.play(event.target.playerInfo.currentTime, this.state.id);
+       this.started = true; 
+       this.messageSent = true;
+       this.internalStart = 0; 
 
-        //if( event.target.playerInfo.playerState!=-1  && event.target.playerInfo.playerState!=3  && this.internalChange!=true ){
-        
-
-        //This.props.play will need to emit the current player state and the time
-        //this.props.play(event.target.playerInfo.playerState,  event.target.playerInfo.currentTime);
-
-        //console.log(event.target.playerInfo);
-        //console.log(event.target.playerInfo);
-
-
-        //}else if(this.internalChange==true){
-            //this.internalChange = false; 
-       // }
-       
-    }
+        }
+  
+      }
+      
 
     onPlay =(event)=>{
+
+        
+
+          
+          
+          if(this.internalChange === false  && this.started == true && this.internalStart ==1) {
+         
+            this.props.play(event.target.playerInfo.currentTime, this.state.id);
+            
+             
+          }else{
+
+            if(this.internalStart ==0){
+              this.internalStart = 1; 
+            }
+
+            if(this.started == false){
+              this.started = true; 
+            }
+
+
+            if(this.internalChange === true){
+              this.internalChange = false; 
+            }
+
+       
+
+
+          }
+
+
+
+        }
       
-      if(this.internalChange == -1) {
-        this.props.play(event.target.playerInfo.currentTime, this.state.id);
-        this.messageSent = true; 
-        console.log("I was played!"); 
-      }else{
-
-        this.internalChange = -1;  
-      }
-
-    }
+  
 
     onPause = (event) => {
 
-        
+            
+            if(this.internalChange === false  && this.started == true && this.internalStart ==1  ) {
+            console.log("This should not be seen, in the other window")
+            this.props.pause(this.state.id);
+           
+             
+          }
+          
+          else{
+
+              if(this.internalStart ==0){
+                this.internalStart = 1; 
+              }
+
+              if(this.started == false){
+                this.started = true; 
+              }
+
+              if(this.newMemberPause == true){
+               this.newMemberPause = false; 
+              
+              }
 
 
-        if(this.internalChange == -1) {
-          this.props.pause(this.state.id); 
-          this.messageSent = true; 
-          console.log("I was paused!"); 
-        }else{
-  
-          this.internalChange = -1; 
-        }
-  
-
-
-    }
+              if(this.internalChange === true){
+                this.internalChange = false; 
+              }
+          }
+  }
 
     //nextProps that are being passed 
     componentWillReceiveProps =(nextProps)=>{
 
+
         // This means the requres to change the play status is coming from a differnt person
           
             // Here you need to add the logic to deal with the a slider chage here
-            
-            if(this.messageSent!=true){
 
-            if(this.state.player[0]!=null){
-              console.log("I iniated the change and I'm still getting this message")
-                this.internalChange = 0; 
+          
+        
+            if(this.props.video!=null){
+              
+              if(this.props.video.id.videoId != nextProps.video.id.videoId){
+                this.started = false; 
+              }
 
-
-                //This is using the custom made slider
-                //if(this.props.updatedTime!= nextProps.updatedTime){
-             
-                    //this.state.player[0].seekTo(this.props.updatedTime);
-                //}
-
-                //if(this.props.time!= nextProps.time){
-             
-                    //this.state.player[0].seekTo(this.props.time);
-               // }
-
-
-               
-                if(nextProps.PlayerState == "PLAY"){
-                   
-            
-                    this.state.player[0].seekTo(nextProps.time).playVideo();
-                   
-
-
-                }
-
-                if(nextProps.PlayerState == "PAUSE"){
-                
-                    this.state.player[0].pauseVideo();
-                }
-
-
-            
             }
-          }else{
-            this.messageSent = false; 
-          }
+          
+            console.log(nextProps.nPause); 
+
+            // that means a video has been chosen
+           if(this.state.player[0]!=null && nextProps.nPause == 1 && this.state.player[0].playerInfo.playerState != -1){
+
+           
+              if(this.state.player[0]!=null){
+             
+                // A new member has joined, quick lets send them the current time thats being played
+              this.props.StateReset(); 
+              this.internalChange = true;
+              console.log("IT HAS BEEN PAUSED: nPause == 1")
+              this.state.player[0].pauseVideo();
+              this.props.reset(this.state.player[0].getCurrentTime());
+              this.props.Reset(); 
+              
+             
+
+              
+
+              
+              }
+
+            }
+            
+          //  else{
+
+              //this will only ever be recvied by the other player, the only reason that this would have been fired before if the socket updated the props
+
+              if(this.state.player[0]!=null){
+                
+                this.internalChange = true;
+
+                if(nextProps.joined == true){
+                  
+                  console.log("")
+                  this.props.joinedReset(); 
+                  
+                  this.state.player[0].seekTo(nextProps.time).pauseVideo();
+                  this.started = true; 
+                  
+              }
+
+
+                 else if(nextProps.PlayerState == "PLAY"){
+                      
+                      console.log("It got here... it played even when a new member joined"); 
+                      this.props.StateReset(); 
+                      this.state.player[0].seekTo(nextProps.time).playVideo();
+                      
+                  }
+
+                  else if(nextProps.PlayerState == "PAUSE"){
+
+                    console.log("It got here... it played even when a new member joined");  
+                      this.props.StateReset();
+                      this.state.player[0].pauseVideo();
+                      
+                  }
+
+
+              
+              }
+          
             // -1 = unstarted
             // 0 = ended 
             // 1 = playing 
@@ -121,22 +194,16 @@ class VideoDetail extends React.Component{
 
 
     
-
-
+     // }
+        
+        
 
 
     }
    
    
     
-      componentDidMount(){
-
-        // This is only ever called once
-        
-        //this.setState({id:Math.floor(Math.random() * 100000)}); 
-        console.log(this.state.id); 
-        
-      }
+     
 
       Ready =(event) => {
 
@@ -149,6 +216,9 @@ class VideoDetail extends React.Component{
           duration:player[0].getDuration(), 
           id:this.props.id
         });
+
+        console.log("Ready: Video-Detail -> This should come second")
+        this.props.loaded(); 
       }
 
 
@@ -184,17 +254,7 @@ class VideoDetail extends React.Component{
         
                 </div>
 
-                <Slider newTime={this.props.newTime} time={this.state.duration} valueLabelDisplay="auto"/>
-                <div  style ={{marginTop:'10px' }}class="ui buttons fluid">
-
-                    
-                        <button   onClick={() => this.props.play(1)} class="ui icon button"><i aria-hidden="true" class="play icon"></i></button>
-                        <button onClick={() => this.props.play(2) }class="ui icon button"><i aria-hidden="true" class="pause icon"></i></button>
-                       
-                    
-                   
-
-                </div>
+             
 
         
                 <div className = "ui segment">
@@ -207,7 +267,8 @@ class VideoDetail extends React.Component{
         );
       }
     
-}
+    }
+  
 
 
 export default VideoDetail;

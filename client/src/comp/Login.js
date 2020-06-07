@@ -16,7 +16,7 @@ state = {term: ''};
     event.preventDefault(); 
     
     this.props.enter((this.state.term)); 
-    // Her
+    
     
     };
 
@@ -25,7 +25,7 @@ state = {term: ''};
         event.preventDefault(); 
         
         this.props.nameSubmission((this.state.term)); 
-        // Her
+        
         
         };
 
@@ -100,7 +100,7 @@ state = {term: ''};
 
         }else{
 
-           
+          
 
             return(
 

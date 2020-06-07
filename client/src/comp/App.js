@@ -12,7 +12,7 @@ import './App.css';
 import MemberList from './MemberList'; 
 //"https://agile-mountain-68964.herokuapp.com/"
 //"http://localhost:8080"
-const socket = io("https://agile-mountain-68964.herokuapp.com/"); 
+const socket = io("http://localhost:8080"); 
 //"https://agile-mountain-68964.herokuapp.com/"
 
 // There might be some PURE aids with the rooms here
@@ -26,96 +26,128 @@ class App extends React.Component {
          messages:[],
          newTime:0, 
          time:0, 
+         onChange:-1,
          PlayerState:"",
          target:[], 
          room:null, 
-         error:0 , 
+         loaded:false, 
+         error:0,
+         newMemberPause:0,  
          name:null};
+
+    joined = false;
+    called = false; 
     
+    loaded = () => {
+
+        this.setState({loaded:true});
+
+        // if joined is TRUE, this is when we send the message
+        console.log("This loaded:"); 
+       
+        if(this.called == true){
+            
+            console.log("This loaded: this.state.joined == true"); 
+            socket.emit('newMemberPause', this.state.room); 
+            this.called = false; 
+        }
+
+    }
 
     send = (list) => {
-    
-       
+
         //You are sendign the array of messages
         socket.emit('change color', list, this.state.room) 
       }
-
     // When a user makes a search query, it is emmited to the other sockets, then once it is recived again, it will be rendered
     EmitSearch = (result) =>{
-       
-       
-        
         socket.emit('search', result, this.state.room);
-
-
     }
       componentWillMount = () => {
-         
-         
           socket.on('change color', (col) => {
               // Here Im updating the messages array, to be the new messages that I have recived
               this.setState({messages:col});
           })
-
           // Setting the state with the search result
-          socket.on('search', (result) => {
-            console.log("theery reached back here")
+          socket.on('search', (result) => {  
             this.setState({
                 videos: result.data.items,
                 selectedVideo:result.data.items[0]
               });   
         })
-
-        socket.on('select', (video) => {
-            
+        socket.on('select', (video) => {  
             this.setState({selectedVideo:video});
-
         })
-
         socket.on('play', (time, id) => {
+            console.log("From APP.js: Play will now setState")
             this.setState({time:time, PlayerState:"PLAY", id:id})
         })
-
         socket.on('pause', (id) => {
             this.setState({PlayerState:"PAUSE", id:id})
         })
+        socket.on('memberTime', (times) => {
 
+            // If we are really a new member reciving this time
+            if(this.state.joined ==true){
+
+                console.log(times); 
+                this.setState({time:times});
+
+            }
+            
+
+
+        })
         socket.on('newTime', (newTime) => {
             this.setState({newTime:newTime})
         })
+        socket.on('onChange', (state) => {
+            this.setState({onChange:state})
+        })
+        socket.on('newMemberPause', () => {
+            // Now this is used to update the props, to notify everyone that a new member has joined
+            this.setState({newMemberPause:1})
+        })
+       
+        socket.on('n', (SelectedVideo) => {
+
+            if(this.state.selectedVideo != SelectedVideo){   
+                this.setState({selectedVideo:SelectedVideo})
+                console.log("n: setting joined:true, this should come first")
+                this.joined= true;  
+            }
+
+            
+            
+        })
 
         socket.on('newMember', (list) => {
-            
+            if(this.state.selectedVideo!= null){   
+               this.newMemberVideo();  
+            }
             console.log(list); 
             this.setState({members:list}); 
-        
-            
-        
-
-
         })
-        
-
         socket.on('enter', (term) => {
             if(term!="FAIL"){
-
             // So here the room will no longer be null
             // Here when this happens you need to
-
             this.setState({room:term})
             }else{
                 // Here you attempted to enter a code that doesnt exist
                 console.log("The code you have entered does not exist in the data base, please try again"); 
-
                 // IF the code doesnt work, we want to display a message, with an x button, that indciates the wrong code was used
                 this.setState({error:1}); 
-
-
-
-
             }
         })
 
+
+      }
+
+      newMemberVideo = () => {
+        console.log(this.state.room);
+        
+        socket.emit('n', this.state.selectedVideo, this.state.room);
 
       }
 
@@ -133,7 +165,8 @@ class App extends React.Component {
 
     pressPlay = (time, id) => {
       // From here it will emit to all the other sokcets, execpt this one
-        socket.emit('play',time, id,   this.state.room)
+       
+        socket.emit('play',time, id, this.state.room)
     }
 
     pressPause = (id) => {
@@ -141,13 +174,12 @@ class App extends React.Component {
           socket.emit('pause', id, this.state.room)
       }
 
-
     newTime = (newTime) => {
-
-      
         socket.emit('newTime', newTime, this.state.room)
+    }
 
-
+    Reset = () =>{
+        this.setState({newMemberPause:0}); 
     }
 
  
@@ -184,27 +216,37 @@ nameSubmission = (name) => {
     // What we want to do is, have the logic to check the length og the list
     socket.emit("newMember", name, this.state.room); 
 
-   
-    
 }
+
+
+onChange = (state) => {
+
+    socket.emit("onChange", state, this.state.room);
+
+}
+
+reset = (time) => {
+
+   
+    socket.emit("memberTime", time, this.state.room);
+
+}
+
+
+StateReset = () => {
+
+    this.setState({PlayerState:""}); 
+}
+
 
 createRoom = () => {
     // When the create room session button is pressed, we want to emit that we want to create a new room
     console.log("Ive been clic")
     socket.emit('createRoom');
-
-
-
 }
-
-
 // This is a function
 onVideoSelect = (video) =>{
-
-    
- 
     socket.emit('select', video, this.state.room) 
-   
 }
 
 close = ( ) => {
@@ -252,11 +294,23 @@ ErrorDecider = () =>{
 
 }
 
+joinedReset = () => {
+
+   console.log("joinedReset: Called")
+    this.joined = false; 
+    this.called = true; 
+}
+
+joined = () => {
+
+    socket.emit('joined', this.state.room);
+}
+
 EnterName = () => {
 
     // If the name is null, then we must prompt the user to enter in their name, which will
     if(this.state.name == null){
-
+        
         // pass in 
         return(
         <div className= "cont">
@@ -284,7 +338,7 @@ EnterName = () => {
     
                         <div  className="eleven wide column">
                             
-                            <VideoDetail  PlayerState={this.state.PlayerState}   updatedTime={this.state.newTime} newTime ={this.newTime} id={this.state.id} time ={this.state.time}  pause={this.pressPause}play={this.pressPlay} video={this.state.selectedVideo}/>
+                            <VideoDetail loaded={this.loaded} Reset={this.Reset}joined={this.joined} joinedReset={this.joinedReset} StateReset={this.StateReset}reset={this.reset } nPause={this.state.newMemberPause}   onChange={this.onChange} PlayerState={this.state.PlayerState}  State={this.state.onChange}  updatedTime={this.state.newTime} newTime ={this.newTime} id={this.state.id} time ={this.state.time}  pause={this.pressPause} play={this.pressPlay} video={this.state.selectedVideo}/>
                             <h4 className="ui header"> Chat Room</h4>
                                 
                                     {this.state.data}
@@ -299,21 +353,13 @@ EnterName = () => {
                         </div>
     
                         <div className="five wide column">
-    
-                            <VideoList videos={this.state.videos} onVideoSelect = {this.onVideoSelect}/>
+                                <VideoList videos={this.state.videos} onVideoSelect = {this.onVideoSelect}/>
                             <div className="ui segment"> 
                                 <h4 className="ui header"> Connected members</h4>
                                 <MemberList msglist={this.state.members} name={this.state.name}/>
-                                
                                 </div>
-
-
                         </div>
-    
-                    </div>
-                    
-                     
-                    
+                    </div>  
                 </div>
                
         
@@ -331,14 +377,7 @@ EnterName = () => {
 
 
 
-
-
-
 render(){
-
-
-
-    
     if(this.state.room == null){
         return this.ErrorDecider(); 
     }
