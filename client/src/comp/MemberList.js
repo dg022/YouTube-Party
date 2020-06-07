@@ -4,10 +4,12 @@ import CommentDetail from './CommentDetail';
 
 const MemberList = (props) => {
     
+  
   const images = props.msglist.map(msg => {
-
-
+    console.log(msg)
+    if(msg!=null){
     return <CommentDetail content = {"joined"} name ={msg}  />;
+    }
   });
 
   return <div className="ui comments"> {images}</div>;

@@ -21,6 +21,7 @@ class App extends React.Component {
     state = {videos: [], 
         selectedVideo:null, 
         data:null, 
+        socketId:null, 
         id:Math.floor(Math.random() * 100000), 
          members:[], 
          messages:[],
@@ -128,11 +129,20 @@ class App extends React.Component {
             console.log(list); 
             this.setState({members:list}); 
         })
-        socket.on('enter', (term) => {
+
+        socket.on('remove', (list) => {
+           
+            console.log(list); 
+            this.setState({members:list}); 
+        })
+
+
+        socket.on('enter', (term, ID) => {
             if(term!="FAIL"){
             // So here the room will no longer be null
             // Here when this happens you need to
             this.setState({room:term})
+            this.setState({socketId:ID})
             }else{
                 // Here you attempted to enter a code that doesnt exist
                 console.log("The code you have entered does not exist in the data base, please try again"); 
@@ -214,7 +224,7 @@ nameSubmission = (name) => {
     this.setState({name:name}); 
 
     // What we want to do is, have the logic to check the length og the list
-    socket.emit("newMember", name, this.state.room); 
+    socket.emit("newMember", name,this.state.socketId, this.state.room); 
 
 }
 

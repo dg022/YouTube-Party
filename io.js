@@ -35,10 +35,16 @@ var Users = new Schema({ // example from docs
         require     :   true
     }, 
 
-    members         :   {
-      type        :   [String],
-      require     :   true
-  },
+    //members         :   {
+     // type        :   [String],
+      //require     :   true
+  //},
+
+  members         :   {
+    type        :   Map,
+    of: String,
+    require     :   true
+},
 
 
 });
@@ -74,7 +80,7 @@ const PORT = process.env.PORT || 8080;
 
 
 
-
+var currentRoomId;
 
 // This is what the socket.io syntax is like, we will work this later
 io.on('connection', socket => {
@@ -87,7 +93,8 @@ io.on('connection', socket => {
         // Code exists, allow the user into the room
         console.log("The room name exists.. joining room")
         socket.join(term);
-        io.to(term).emit("enter", term); 
+        io.to(term).emit("enter", term, socket.id); 
+         currentRoomId = term; 
       }else{
         // Code does not exist, Alert to the user who emmited, that 
         // They entered a code that does not exist
@@ -100,8 +107,7 @@ io.on('connection', socket => {
               //  console.log('>>>>>> ' + JSON.stringify(result, null, 4));
           // }
         //}); 
-        socket.emit("enter", "FAIL"); 
-        console.log("ROOM DOES NOT EXIST");
+        
       }  
 
 });
@@ -109,11 +115,12 @@ io.on('connection', socket => {
 
 socket.on('createRoom', async () => {
   
-  console.log("right here")
+ 
+
   //createRoom is called, when the user clciks the create Session button. 
   // Here we need to generate some kind of number, and set it as the code. This is the roomName/code to join 
       var term =  Math.floor(Math.random() * 100000); 
-      var newUser = new Codes({"code":term, "members":[]}); // you also need here to define _id since, since you set it as required.
+      var newUser = new Codes({"code":term, "members":{}}); // you also need here to define _id since, since you set it as required.
       newUser.save(function(err, result){
           if(err){
               console.log('>>>>>> Error');
@@ -123,21 +130,27 @@ socket.on('createRoom', async () => {
       }); 
       
       socket.join(term);
-      io.to(term).emit("enter", term); 
+      currentRoomId = term; 
+      io.to(term).emit("enter", term, socket.id); 
     
 
 });
 
       // Emit newMember 
-      socket.on('newMember', async (name, room) =>{
+      socket.on('newMember', async (name, ID, room) =>{
 
         // Right here, we want to make a query to the room, get the room and memers arraym, push the new member, and give it back as an array
 
         const doc = await Codes.findOne({code:room});
-        const newList  = doc.members; 
-        newList.push(name); 
+        var newList  = doc.members; 
+       
+        newList.set(ID, name); 
         doc.members =  newList;
-        console.log(newList); 
+        
+         newList = [...newList.values()]
+         
+
+
         await doc.save(); 
         
 
@@ -149,7 +162,7 @@ socket.on('createRoom', async () => {
           io.to(room).emit('change color', color)
         })
         socket.on('n', (selectedVideo, room) => {
-          console.log("HERE"); 
+          
           socket.to(room).emit('n', selectedVideo); 
         })
         socket.on('newMemberPause', (room) => {
@@ -192,8 +205,43 @@ socket.on('createRoom', async () => {
         socket.on('newTime', (newTime, room) => {
           io.to(room).emit('newTime',newTime)
         })
-        socket.on('disconnect', () => {
-          console.log('user disconnected')
+
+        // This here senses when a user has disconneted, send it to everyone except the sender, cuz they left
+        socket.on('disconnect', async () => {
+
+        
+
+        const doc = await Codes.findOne({code:currentRoomId});
+        var newList  = doc.members;
+        var mapList = doc.members;  
+        mapList.delete(socket.id); 
+        newList.set(socket.id, undefined, {strict: false} );
+        doc.members =  newList;
+        mapList = [...mapList.values()]
+        await doc.save();
+
+        //logic to remove the record from the database entrely, if its no longer there
+
+        io.to(currentRoomId).emit('remove', mapList)
+
+        const docs = await Codes.findOne({code:currentRoomId}); 
+        if(docs.members.size == 0 ) {
+          
+          
+
+            Codes.deleteOne({ code: currentRoomId}, function (err) {
+              if(err) console.log(err);
+              console.log("Successful deletion");
+            });
+        
+
+        }
+
+
+        
+
+
+
         })
 })
 
