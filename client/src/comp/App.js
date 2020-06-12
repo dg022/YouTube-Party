@@ -10,6 +10,9 @@ import MessageList from './MessageList';
 import Login from './Login'; 
 import './App.css';
 import MemberList from './MemberList'; 
+import Chat from "./Chat"
+import Loading from "./Loading"
+import { Random } from 'react-animated-text';
 //"https://agile-mountain-68964.herokuapp.com/"
 //"http://localhost:8080"
 const socket = io("http://localhost:8080"); 
@@ -33,6 +36,7 @@ class App extends React.Component {
          room:null, 
          loaded:false, 
          error:0,
+         newMessage:null, 
          newMemberPause:0,  
          name:null};
 
@@ -136,6 +140,11 @@ class App extends React.Component {
             this.setState({members:list}); 
         })
 
+        socket.on('text', (message) => {
+           
+            console.log(message)
+            this.setState({newMessage:String(message)}); 
+        })
 
         socket.on('enter', (term, ID) => {
             if(term!="FAIL"){
@@ -265,11 +274,45 @@ close = ( ) => {
 }
 
 
+Header = () => {
+
+    return(
+
+        <div class="ui fixed inverted menu red">
+        <left>
+        <div class="ui container">
+          <a href="#" class="header item">
+          <img src="https://img.icons8.com/clouds/150/000000/youtube-play.png"/>
+            YouTube Party!
+          </a>
+        </div>
+        </left>
+      </div>
+      
+
+
+    );
+
+}
+
+Footer= () =>{
+    return(
+    <div class="ui black inverted vertical footer segment form-page">
+    <div class="ui container">
+        Made with Love by David George
+    </div>
+    </div>
+    ); 
+
+}
+
 ErrorDecider = () =>{
 
 
     if(this.state.error == 1){
         return(
+            <div> 
+                {this.Header()}
             <div className="cont">
                 <div className="ui segment" >
 
@@ -287,14 +330,21 @@ ErrorDecider = () =>{
 
 
             </div>
+                  {this.Footer()}
+            </div>
         );
             }else{
 
                 return(
+                    <div > 
+                        {this.Header()}
                     <div className="cont">
                             <div className="ui segment" >
                             <Login enter={this.enter} createRoom={this.createRoom} roomStatus={null}/>
                             </div>
+                    </div>
+
+                    {this.Footer()}
                     </div>
 
                 );
@@ -304,11 +354,23 @@ ErrorDecider = () =>{
 
 }
 
+newText = (message) => {
+
+    console.log("from App.js:")
+    console.log(message); 
+    socket.emit("text", message, this.state.room) 
+
+}
+
 joinedReset = () => {
 
    console.log("joinedReset: Called")
     this.joined = false; 
     this.called = true; 
+}
+
+textReset = () => {
+    this.setState({newMessage:""})
 }
 
 joined = () => {
@@ -323,24 +385,50 @@ EnterName = () => {
         
         // pass in 
         return(
+            <div > 
+                {this.Header()}
         <div className= "cont">
             <div className="ui segment">
             <Login nameSubmission={this.nameSubmission} roomStatus={this.state.room}/>
             </div>
 
         </div>
+        {this.Footer()}
+       
+               
+        </div>
         );
 
     }else{
 
-        // Right here, we want to emit to all rooms that a new memebr has joined
+        if(this.state.selectedVideo == null){
+            return(
+            <div> 
+                
+            <div className="ui container" style ={{marginTop:'10px' }}>
+                <h4 className="ui header"> ROOM CODE: {this.state.room}</h4>
+               
+                <center> <h1  style ={{marginBottom:'100px' }}> SEARCH UP A VIDEO! </h1> </center>
+                <SearchBar Search={this.search} />
+                <Loading/>
+                
+                
+               
+              
+        
+             </div>
+             {this.Footer()}
+             </div>
+            ); 
+        }
       
 
         return(
-
+            <div> 
+                
             <div className="ui container" style ={{marginTop:'10px' }}>
                 <h4 className="ui header"> ROOM CODE: {this.state.room}</h4>
-                <SearchBar Search={this.search} />
+                <SearchBar style ={{marginBottom:'10px' }}Search={this.search} />
                 
                 
                 <div className="ui grid">
@@ -371,8 +459,12 @@ EnterName = () => {
                         </div>
                     </div>  
                 </div>
-               
+              
+              <Chat textReset={this.textReset} text={this.newText}  newtext={this.state.newMessage}/>
+              
         
+             </div>
+             {this.Footer()}
              </div>
         );
 
@@ -389,7 +481,11 @@ EnterName = () => {
 
 render(){
     if(this.state.room == null){
-        return this.ErrorDecider(); 
+        return (
+            <div> 
+            {this.ErrorDecider()}
+            </div>
+        )
     }
     
 //Here the room is no longer null, we must once again parse this out into its own logic to allow users to enter their name

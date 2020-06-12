@@ -2,6 +2,98 @@
   
   position: absolute;
   left: 40%;
-  top: 40%;
+  top: 35%;
 
 }
+
+body {
+  width: 100vw;
+  height: 100vh;
+  background: white;
+  overflow: hidden;
+  padding: 0;
+  margin: 0;
+  justify-content: center;
+  align-items: center;
+}
+
+nav {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 300px;
+  
+}
+
+ul,
+li {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  
+}
+
+ul {
+  position: relative;
+  display: flex;
+  width: 300px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10%;
+  margin-left: 38%;
+  margin-right: 50%;
+  text-align:center;
+}
+.anim{
+  text-align:center;
+  font-size: 400px;
+  justify-content: center;
+
+}
+li {
+  border-radius: 10px;
+  margin-bottom: 10px;
+  margin-right: 10px;
+  width: 140px;
+  height: 140px;
+  justify-content: center;
+  align-items: center;
+  display:inline-block;
+    
+}
+
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 300px;
+  background: #fff;
+  
+}
+
+.refresh {
+  padding: 10px;
+  position: absolute;
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+  width: 20px;
+  height: 20px;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+@media (min-height: 320px) {
+  .ui.footer.form-page { /* Increased specificity for SO snippet priority */
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+}
+
