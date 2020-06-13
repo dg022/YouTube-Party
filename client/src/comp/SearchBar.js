@@ -21,11 +21,11 @@ this.props.Search(this.state.term);
 render(){
 
 return(
-    <div className="search-bar ui segment">
-        <form onSubmit={this.submit}className ="ui form">
+    <div className="ui search red ">
+        <form onSubmit={this.submit}className ="ui form rounded">
             <div className="field" >
 
-                <label>Video Search</label>
+                <label>Search by Title/URL</label>
                 <input 
                 onChange={this.change }
                 value={this.state.term}

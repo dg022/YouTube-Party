@@ -56,7 +56,7 @@ state = {term: ''};
                                 
                                        <div> 
                                        <img src="https://img.icons8.com/clouds/150/000000/youtube-play.png"/>
-                                            <div className="search-bar ui segment">
+                                            <div className="search-bar">
                                                 
                                                 <form onSubmit={this.submit}className ="ui form">
                                                     <div className="field" >
@@ -115,7 +115,7 @@ state = {term: ''};
                         
                                <div> 
                                <img src="https://img.icons8.com/clouds/150/000000/youtube-play.png"/>
-                                    <div className="search-bar ui segment">
+                                    <div className="search-bar">
                                         
                                         <form onSubmit={this.submitName}className ="ui form">
                                             <div className="field" >

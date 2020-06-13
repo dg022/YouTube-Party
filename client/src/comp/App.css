@@ -41,7 +41,7 @@ ul {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  margin-top: 10%;
+  margin-top: 5%;
   margin-left: 38%;
   margin-right: 50%;
   text-align:center;
@@ -89,7 +89,7 @@ li {
   cursor: pointer;
 }
 
-@media (min-height: 320px) {
+@media (min-height: 340px) {
   .ui.footer.form-page { /* Increased specificity for SO snippet priority */
     position: absolute;
     bottom: 0;

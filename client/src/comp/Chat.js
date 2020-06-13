@@ -11,7 +11,7 @@ class Chat extends Component {
 
   componentWillReceiveProps =(nextProps) => {
 
-    if(nextProps.newText!="") {
+    if(nextProps!=null&& nextProps.newText!=null &&nextProps.newText!="") {
 
         if(nextProps.newText!=""){
 

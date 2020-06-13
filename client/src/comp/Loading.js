@@ -29,6 +29,6 @@ export const Loading = () => {
   );
 };
 
-const initialColors = ["#FF008C", "#D309E1", "#9C1AFF", "#7700FF"];
+const initialColors = ["#f70d1a", "#ff726f", "#ffc0cb", "#ffcccb "];
 
 export default Loading;

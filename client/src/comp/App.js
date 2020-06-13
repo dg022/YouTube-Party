@@ -15,7 +15,7 @@ import Loading from "./Loading"
 import { Random } from 'react-animated-text';
 //"https://agile-mountain-68964.herokuapp.com/"
 //"http://localhost:8080"
-const socket = io("http://localhost:8080"); 
+const socket = io("https://agile-mountain-68964.herokuapp.com/"); 
 //"https://agile-mountain-68964.herokuapp.com/"
 
 // There might be some PURE aids with the rooms here
@@ -297,9 +297,9 @@ Header = () => {
 
 Footer= () =>{
     return(
-    <div class="ui black inverted vertical footer segment form-page">
+    <div class="ui red inverted vertical footer segment form-page">
     <div class="ui container">
-        Made with Love by David George
+      <left> YouTube Party by David George</left> 
     </div>
     </div>
     ); 
@@ -408,7 +408,8 @@ EnterName = () => {
             <div className="ui container" style ={{marginTop:'10px' }}>
                 <h4 className="ui header"> ROOM CODE: {this.state.room}</h4>
                
-                <center> <h1  style ={{marginBottom:'100px' }}> SEARCH UP A VIDEO! </h1> </center>
+                <center> <img src="https://img.icons8.com/clouds/300/000000/youtube-play.png"/></center>
+                <center> <h1>YouTube Party!</h1></center>
                 <SearchBar Search={this.search} />
                 <Loading/>
                 
@@ -431,20 +432,20 @@ EnterName = () => {
                 <SearchBar style ={{marginBottom:'10px' }}Search={this.search} />
                 
                 
-                <div className="ui grid">
+                <div style ={{marginTop:'10px' }} className="ui grid">
                     <div className="ui row">
     
                         <div  className="eleven wide column">
                             
                             <VideoDetail loaded={this.loaded} Reset={this.Reset}joined={this.joined} joinedReset={this.joinedReset} StateReset={this.StateReset}reset={this.reset } nPause={this.state.newMemberPause}   onChange={this.onChange} PlayerState={this.state.PlayerState}  State={this.state.onChange}  updatedTime={this.state.newTime} newTime ={this.newTime} id={this.state.id} time ={this.state.time}  pause={this.pressPause} play={this.pressPlay} video={this.state.selectedVideo}/>
-                            <h4 className="ui header"> Chat Room</h4>
+                            
                                 
                                     {this.state.data}
-                                <div className="ui segment"> 
-                                <MessageList  msglist={this.state.messages}/>
-                                
+                                    <div className="ui segment"> 
+                                <h4 className="ui header"> Connected members</h4>
+                                <MemberList msglist={this.state.members} name={this.state.name}/>
                                 </div>
-                                <Message msg={this.sendMessage} name={this.state.name}/>
+                                
     
     
     
@@ -452,10 +453,7 @@ EnterName = () => {
     
                         <div className="five wide column">
                                 <VideoList videos={this.state.videos} onVideoSelect = {this.onVideoSelect}/>
-                            <div className="ui segment"> 
-                                <h4 className="ui header"> Connected members</h4>
-                                <MemberList msglist={this.state.members} name={this.state.name}/>
-                                </div>
+                            
                         </div>
                     </div>  
                 </div>
