@@ -39,6 +39,7 @@ state = {term: ''};
     };
 
 
+
     determineRender  = () => {
 
         if(this.props.roomStatus ==null){
@@ -46,7 +47,7 @@ state = {term: ''};
             return(
 
                 <div class="ui middle aligned center aligned grid">
-                        <div class="column"> 
+                        <div      class="column log"> 
                             <h2 class="ui image header">
                                 <div class="content">
                                     YouTube Party!
@@ -64,7 +65,7 @@ state = {term: ''};
                                                     <div class="ui left icon input">
                                                     <i class="terminal icon"/>
                                                 
-                                                        <input 
+                                                        <input id="searchid"
                                                         
                                                         onChange={this.change }
                                                         value={this.state.term}
@@ -96,16 +97,15 @@ state = {term: ''};
         
             );
 
+      
 
 
-        }else{
-
-          
-
+        }
+        else{
             return(
 
                 <div class="ui middle aligned center aligned grid">
-                <div class="column"> 
+                <div class="column log"> 
                     <h2 class="ui image header">
                         <div class="content">
                             YouTube Party!

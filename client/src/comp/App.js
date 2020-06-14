@@ -15,7 +15,7 @@ import Loading from "./Loading"
 import { Random } from 'react-animated-text';
 //"https://agile-mountain-68964.herokuapp.com/"
 //"http://localhost:8080"
-const socket = io("https://agile-mountain-68964.herokuapp.com/"); 
+const socket = io("http://localhost:8080"); 
 //"https://agile-mountain-68964.herokuapp.com/"
 
 // There might be some PURE aids with the rooms here
@@ -157,6 +157,7 @@ class App extends React.Component {
                 console.log("The code you have entered does not exist in the data base, please try again"); 
                 // IF the code doesnt work, we want to display a message, with an x button, that indciates the wrong code was used
                 this.setState({error:1}); 
+                document.getElementById("searchid").style.borderColor = "red";
             }
         })
 
@@ -295,6 +296,24 @@ Header = () => {
 
 }
 
+
+ErrMsg = () =>{
+
+return(
+    <div class="ui negative message">
+    <i onClick={this.close} class="close icon"></i>
+    <div class="header">
+        Invalid room code!
+    </div>
+    <p>Try again, or create new session. 
+    </p></div>
+
+
+);
+
+
+}
+
 Footer= () =>{
     return(
     <div class="ui red inverted vertical footer segment form-page">
@@ -309,50 +328,25 @@ Footer= () =>{
 ErrorDecider = () =>{
 
 
-    if(this.state.error == 1){
-        return(
-            <div> 
-                {this.Header()}
-            <div className="cont">
-                <div className="ui segment" >
 
                 
-                <Login enter={this.enter} createRoom={this.createRoom} roomStatus={null}/>
-                </div>
 
-                <div class="ui negative message">
-                        <i onClick={this.close} class="close icon"></i>
-                        <div class="header">
-                            Invalid room code!
-                        </div>
-                        <p>Try again, or create new session. 
-                        </p></div>
-
-
-            </div>
-                  {this.Footer()}
-            </div>
-        );
-            }else{
 
                 return(
-                    <div > 
-                        {this.Header()}
-                    <div className="cont">
-                            <div className="ui segment" >
-                            <Login enter={this.enter} createRoom={this.createRoom} roomStatus={null}/>
-                            </div>
-                    </div>
+                        
+                            
+                            <Login incor={0} enter={this.enter} createRoom={this.createRoom} roomStatus={null}/>
+                            
+                            
+                       
 
-                    {this.Footer()}
-                    </div>
-
+                  
                 );
 
 
 }
 
-}
+
 
 newText = (message) => {
 
@@ -385,31 +379,22 @@ EnterName = () => {
         
         // pass in 
         return(
-            <div > 
-                {this.Header()}
-        <div className= "cont">
-            <div className="ui segment">
+         
             <Login nameSubmission={this.nameSubmission} roomStatus={this.state.room}/>
-            </div>
-
-        </div>
-        {this.Footer()}
-       
-               
-        </div>
+         
         );
 
     }else{
 
         if(this.state.selectedVideo == null){
             return(
-            <div> 
+            <div class="ui container middle aligned center aligned grid"> 
                 
-            <div className="ui container" style ={{marginTop:'10px' }}>
+            <div className="ui container middle aligned center aligned grid" style ={{marginTop:'10px' }}>
                 <h4 className="ui header"> ROOM CODE: {this.state.room}</h4>
                
-                <center> <img src="https://img.icons8.com/clouds/300/000000/youtube-play.png"/></center>
-                <center> <h1>YouTube Party!</h1></center>
+                <div className="ui container middle aligned center aligned grid"> <img src="https://img.icons8.com/clouds/300/000000/youtube-play.png"/></div>
+                <div className="ui container middle aligned center aligned grid"> <h1>YouTube Party!</h1></div>
                 <SearchBar Search={this.search} />
                 <Loading/>
                 
@@ -418,7 +403,7 @@ EnterName = () => {
               
         
              </div>
-             {this.Footer()}
+            
              </div>
             ); 
         }
@@ -462,7 +447,7 @@ EnterName = () => {
               
         
              </div>
-             {this.Footer()}
+            
              </div>
         );
 
@@ -480,8 +465,10 @@ EnterName = () => {
 render(){
     if(this.state.room == null){
         return (
-            <div> 
+
+            <div class="ui middle aligned center aligned grid"      > 
             {this.ErrorDecider()}
+
             </div>
         )
     }

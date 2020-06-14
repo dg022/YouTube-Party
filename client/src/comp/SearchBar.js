@@ -1,4 +1,5 @@
 import React from 'react'; 
+import './App.css';
 
 
 class SearchBar extends React.Component{
@@ -21,7 +22,7 @@ this.props.Search(this.state.term);
 render(){
 
 return(
-    <div className="ui search red ">
+    <div className="style">
         <form onSubmit={this.submit}className ="ui form rounded">
             <div className="field" >
 

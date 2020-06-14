@@ -78,8 +78,6 @@ const PORT = process.env.PORT || 8080;
 
 // This creates our socket using the instance of the server
 
-
-
 var currentRoomId;
 
 // This is what the socket.io syntax is like, we will work this later
@@ -96,21 +94,14 @@ io.on('connection', socket => {
         io.to(term).emit("enter", term, socket.id); 
          currentRoomId = term; 
       }else{
-        // Code does not exist, Alert to the user who emmited, that 
-        // They entered a code that does not exist
+        socket.emit("enter", "FAIL"); 
 
-        //var newUser = new Codes({"code":term}); // you also need here to define _id since, since you set it as required.
-        //newUser.save(function(err, result){
-            //if(err){
-              //  console.log('>>>>>> Error');
-            //}else{
-              //  console.log('>>>>>> ' + JSON.stringify(result, null, 4));
-          // }
-        //}); 
         
       }  
 
 });
+
+
 
 
 socket.on('createRoom', async () => {
@@ -168,6 +159,10 @@ socket.on('createRoom', async () => {
         socket.on('newMemberPause', (room) => {
          
           socket.to(room).emit('newMemberPause'); 
+        })
+
+        socket.on('text', (text, room) => {
+          socket.to(room).emit('text', text); 
         })
 
 

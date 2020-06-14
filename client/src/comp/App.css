@@ -1,10 +1,4 @@
-.cont{
-  
-  position: absolute;
-  left: 40%;
-  top: 35%;
 
-}
 
 body {
   width: 100vw;
@@ -41,10 +35,19 @@ ul {
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  margin-top: 5%;
-  margin-left: 38%;
-  margin-right: 50%;
   text-align:center;
+  margin-top: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.style{
+  padding-left: 0px;
+  width: 100%;
+  padding-right: 0px;
+
 }
 .anim{
   text-align:center;
@@ -56,8 +59,8 @@ li {
   border-radius: 10px;
   margin-bottom: 10px;
   margin-right: 10px;
-  width: 140px;
-  height: 140px;
+  width: 10%;
+  height: 10%;
   justify-content: center;
   align-items: center;
   display:inline-block;
@@ -91,9 +94,21 @@ li {
 
 @media (min-height: 340px) {
   .ui.footer.form-page { /* Increased specificity for SO snippet priority */
-    position: absolute;
+    position: fixed;
     bottom: 0;
     width: 100%;
   }
+
+
+  
+@media (min-height: 340px) {
+  .ui.header.form-page { /* Increased specificity for SO snippet priority */
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+}
 }
 
