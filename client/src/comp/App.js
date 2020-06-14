@@ -12,10 +12,10 @@ import './App.css';
 import MemberList from './MemberList'; 
 import Chat from "./Chat"
 import Loading from "./Loading"
-import { Random } from 'react-animated-text';
+
 //"https://agile-mountain-68964.herokuapp.com/"
 //"http://localhost:8080"
-const socket = io("http://localhost:8080"); 
+const socket = io("https://agile-mountain-68964.herokuapp.com/"); 
 //"https://agile-mountain-68964.herokuapp.com/"
 
 // There might be some PURE aids with the rooms here
@@ -282,10 +282,10 @@ Header = () => {
         <div class="ui fixed inverted menu red">
         <left>
         <div class="ui container">
-          <a href="#" class="header item">
+          <a href="#" class="header item"></a>
           <img src="https://img.icons8.com/clouds/150/000000/youtube-play.png"/>
             YouTube Party!
-          </a>
+          
         </div>
         </left>
       </div>
@@ -390,11 +390,15 @@ EnterName = () => {
             return(
             <div class="ui container middle aligned center aligned grid"> 
                 
-            <div className="ui container middle aligned center aligned grid" style ={{marginTop:'10px' }}>
-                <h4 className="ui header"> ROOM CODE: {this.state.room}</h4>
+            <div id="R" className="ui container middle aligned center aligned grid" >
+                <h4 className="ui header "> ROOM CODE: {this.state.room}</h4>
                
-                <div className="ui container middle aligned center aligned grid"> <img src="https://img.icons8.com/clouds/300/000000/youtube-play.png"/></div>
-                <div className="ui container middle aligned center aligned grid"> <h1>YouTube Party!</h1></div>
+                <div id="utube"className="ui container middle aligned center aligned grid">
+                    <div> 
+                     <img src="https://img.icons8.com/clouds/300/000000/youtube-play.png"/>
+                     </div>
+                     </div>
+                <div className="ui container middle aligned center aligned grid"> <h1  style ={{marginTop:'80px' }}>YouTube Party!</h1></div>
                 <SearchBar Search={this.search} />
                 <Loading/>
                 
@@ -412,7 +416,7 @@ EnterName = () => {
         return(
             <div> 
                 
-            <div className="ui container" style ={{marginTop:'10px' }}>
+            <div className="ui container" style ={{marginTop:'80px' }}>
                 <h4 className="ui header"> ROOM CODE: {this.state.room}</h4>
                 <SearchBar style ={{marginBottom:'10px' }}Search={this.search} />
                 

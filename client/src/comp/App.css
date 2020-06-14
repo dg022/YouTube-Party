@@ -28,6 +28,62 @@ li {
   
 }
 
+.se{
+
+margin-top: 80px;
+
+}
+
+#R {
+
+  margin-top: 80px;
+
+}
+.rcw-message-tex{
+  background-color: #ff9c9c !important;
+
+}
+.rcw-launcher{
+  background-color: #db2828 !important;
+}
+
+.rcw-conversation-container >.rcw-header{
+  background-color: #db2828 !important;
+}
+
+.rcw-close {
+  background-color:#db2828 !important;
+  color:#db2828 !important;
+}
+
+.rcw-close-button {
+  background-color:#db2828 !important;
+  color:#db2828 !important;
+}
+
+.conversation-container > .header {
+  background-color: red;
+}
+
+.message > .response {
+  background-color: black;
+  color: white;
+}
+
+
+#utube {
+
+  
+  margin-bottom: 0px;
+  margin-top: 0px;
+  padding-left: 0px;
+  padding-right: 0px;
+  height: 15%;
+  width: 20%;
+
+
+}
+
 ul {
   position: relative;
   display: flex;
