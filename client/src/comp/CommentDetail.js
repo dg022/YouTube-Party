@@ -12,7 +12,7 @@ return(
   
             <div className="comment">
                 <a className="avatar">
-                <Avatar size="40" color={Avatar.getRandomColor('sitebase', ['red', 'green', 'blue'])} name={props.name} />
+                <Avatar size="40" color='red' name={props.name} />
                 </a>
                 <div className="content">
                 <a className="author"> {props.name}    </a>

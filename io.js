@@ -152,9 +152,9 @@ socket.on('createRoom', async () => {
         socket.on('change color', (color, room) => {
           io.to(room).emit('change color', color)
         })
-        socket.on('n', (selectedVideo, room) => {
+        socket.on('n', (selectedVideo, videos, room) => {
           
-          socket.to(room).emit('n', selectedVideo); 
+          socket.to(room).emit('n', selectedVideo, videos); 
         })
         socket.on('newMemberPause', (room) => {
          
