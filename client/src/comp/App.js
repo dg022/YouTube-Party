@@ -15,7 +15,8 @@ import Loading from "./Loading"
 import ReactGa from 'react-ga'
 var MobileDetect = require('mobile-detect');
  var md = new MobileDetect(window.navigator.userAgent);
-
+ ReactGa.initialize('UA-169327515-1');
+ ReactGa.pageview(window.location.pathname + window.location.search);
 //"https://agile-mountain-68964.herokuapp.com/"
 //"http://localhost:8080"
 const socket = io("https://agile-mountain-68964.herokuapp.com/"); 
@@ -24,10 +25,6 @@ const socket = io("https://agile-mountain-68964.herokuapp.com/");
 // There might be some PURE aids with the rooms here
 
 
-useEffect( () => {
-    ReactGa.initialize('UA-169327515-1')   
-   ReactGa.pageview('/')
-   }, []);
 
 
 class App extends React.Component {
