@@ -17,7 +17,7 @@ var MobileDetect = require('mobile-detect');
 
 //"https://agile-mountain-68964.herokuapp.com/"
 //"http://localhost:8080"
-const socket = io("http://localhost:8080"); 
+const socket = io("https://agile-mountain-68964.herokuapp.com/"); 
 //"https://agile-mountain-68964.herokuapp.com/"
 
 // There might be some PURE aids with the rooms here
