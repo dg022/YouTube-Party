@@ -20,11 +20,6 @@ import ReactGa from 'react-ga'
 const socket = io("https://agile-mountain-68964.herokuapp.com/"); 
 //"https://agile-mountain-68964.herokuapp.com/"
 
-// There might be some PURE aids with the rooms here
-
-
-
-
 class App extends React.Component {
     state = {videos: [], 
         selectedVideo:null, 
@@ -230,7 +225,7 @@ class App extends React.Component {
               key: 'AIzaSyBSAzBSy4bhfG8JaCmptEDdreLpQXdAAbQ'            }
           });
           
-          console.log(result);
+          
           this.EmitSearch(result);
           
     }
@@ -238,7 +233,7 @@ class App extends React.Component {
 
 enter = (term) => {
    
-    console.log(term); 
+    
     socket.emit('enter', term); 
 }
 
@@ -275,7 +270,7 @@ StateReset = () => {
 
 createRoom = () => {
     // When the create room session button is pressed, we want to emit that we want to create a new room
-    console.log("Ive been clic")
+    
     socket.emit('createRoom');
 }
 // This is a function
@@ -353,7 +348,8 @@ ErrorDecider = () =>{
         return check;
       };
 
-      console.log(window.mobileAndTabletCheck());
+     
+      
                 
 
 
