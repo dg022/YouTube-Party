@@ -13,8 +13,6 @@ import MemberList from './MemberList';
 import Chat from "./Chat"
 import Loading from "./Loading"
 import ReactGa from 'react-ga'
-var MobileDetect = require('mobile-detect');
- var md = new MobileDetect(window.navigator.userAgent);
  ReactGa.initialize('UA-169327515-1');
  ReactGa.pageview(window.location.pathname + window.location.search);
 //"https://agile-mountain-68964.herokuapp.com/"
@@ -57,11 +55,11 @@ class App extends React.Component {
         this.setState({loaded:true});
 
         // if joined is TRUE, this is when we send the message
-        console.log("This loaded:"); 
+       
        
         if(this.called == true){
             
-            console.log("This loaded: this.state.joined == true"); 
+          
             socket.emit('newMemberPause', this.state.room); 
             this.called = false; 
         }
@@ -93,7 +91,7 @@ class App extends React.Component {
             this.setState({selectedVideo:video});
         })
         socket.on('play', (time, id) => {
-            console.log("From APP.js: Play will now setState")
+            
             this.setState({time:time, PlayerState:"PLAY", id:id})
         })
         socket.on('pause', (id) => {
@@ -104,7 +102,7 @@ class App extends React.Component {
             // If we are really a new member reciving this time
             if(this.state.joined ==true){
 
-                console.log(times); 
+               
                 this.setState({time:times});
 
             }
@@ -124,11 +122,9 @@ class App extends React.Component {
         })
        
         socket.on('n', (SelectedVideo, Videos) => {
-            console.log(SelectedVideo); 
-            console.log(Videos); 
-
+         
             if(this.state.selectedVideo != SelectedVideo){   
-                console.log('it got her ')
+    
                 this.setState({selectedVideo:SelectedVideo})
 
                 if(Videos.length != 0){
@@ -136,7 +132,7 @@ class App extends React.Component {
                     this.setState({videos:Videos})
                 }
 
-                console.log("n: setting joined:true, this should come first")
+              
                 this.joined= true;  
             }
 
@@ -148,19 +144,19 @@ class App extends React.Component {
             if(this.state.selectedVideo!= null){   
                this.newMemberVideo();  
             }
-            console.log(list); 
+          
             this.setState({members:list}); 
         })
 
         socket.on('remove', (list) => {
            
-            console.log(list); 
+             
             this.setState({members:list}); 
         })
 
         socket.on('text', (message) => {
            
-            console.log(message)
+           
             this.setState({newMessage:String(message)}); 
         })
 
@@ -172,7 +168,7 @@ class App extends React.Component {
             this.setState({socketId:ID})
             }else{
                 // Here you attempted to enter a code that doesnt exist
-                console.log("The code you have entered does not exist in the data base, please try again"); 
+               
                 // IF the code doesnt work, we want to display a message, with an x button, that indciates the wrong code was used
                 this.setState({error:1}); 
                 document.getElementById("searchid").style.borderColor = "red";
@@ -183,7 +179,7 @@ class App extends React.Component {
       }
 
       newMemberVideo = () => {
-        console.log(this.state.room);
+        
         
         socket.emit('n', this.state.selectedVideo,  this.state.videos, this.state.room,);
 
@@ -379,15 +375,14 @@ ErrorDecider = () =>{
 
 newText = (message) => {
 
-    console.log("from App.js:")
-    console.log(message); 
+ 
     socket.emit("text", message, this.state.room) 
 
 }
 
 joinedReset = () => {
 
-   console.log("joinedReset: Called")
+ 
     this.joined = false; 
     this.called = true; 
 }

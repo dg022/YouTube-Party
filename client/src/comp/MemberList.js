@@ -6,7 +6,7 @@ const MemberList = (props) => {
     
   
   const images = props.msglist.map(msg => {
-    console.log(msg)
+    
     if(msg!=null){
     return <CommentDetail content = {"joined"} name ={msg}  />;
     }

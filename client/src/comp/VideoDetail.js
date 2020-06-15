@@ -75,7 +75,7 @@ class VideoDetail extends React.Component{
 
             
             if(this.internalChange === false  && this.started == true && this.internalStart ==1  ) {
-            console.log("This should not be seen, in the other window")
+        
             this.props.pause(this.state.id);
            
              
@@ -132,7 +132,6 @@ class VideoDetail extends React.Component{
                 // A new member has joined, quick lets send them the current time thats being played
               this.props.StateReset(); 
               this.internalChange = true;
-              console.log("IT HAS BEEN PAUSED: nPause == 1")
               this.state.player[0].pauseVideo();
               this.props.reset(this.state.player[0].getCurrentTime());
               this.props.Reset(); 
@@ -156,7 +155,7 @@ class VideoDetail extends React.Component{
 
                 if(nextProps.joined == true){
                   
-                  console.log("")
+                 
                   this.props.joinedReset(); 
                   
                   this.state.player[0].seekTo(nextProps.time).pauseVideo();
@@ -167,7 +166,7 @@ class VideoDetail extends React.Component{
 
                  else if(nextProps.PlayerState == "PLAY"){
                       
-                      console.log("It got here... it played even when a new member joined"); 
+                     
                       this.props.StateReset(); 
                       this.state.player[0].seekTo(nextProps.time).playVideo();
                       
@@ -175,7 +174,7 @@ class VideoDetail extends React.Component{
 
                   else if(nextProps.PlayerState == "PAUSE"){
 
-                    console.log("It got here... it played even when a new member joined");  
+                     
                       this.props.StateReset();
                       this.state.player[0].pauseVideo();
                       
@@ -217,7 +216,7 @@ class VideoDetail extends React.Component{
           id:this.props.id
         });
 
-        console.log("Ready: Video-Detail -> This should come second")
+        
         this.props.loaded(); 
       }
 
