@@ -16,6 +16,8 @@ class Chat extends Component {
         if(nextProps.newText!=""){
 
             addResponseMessage(nextProps.newText);
+            nextProps.textReset(); 
+
         }
 
     }

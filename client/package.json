@@ -21,6 +21,7 @@
     "react-avatar": "^3.9.7",
     "react-chat-widget": "^3.0.5",
     "react-dom": "^16.13.1",
+    "react-ga": "^3.0.0",
     "react-scripts": "3.4.1",
     "react-youtube": "^7.11.2",
     "socket.io": "^2.3.0",

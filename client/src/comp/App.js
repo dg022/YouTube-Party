@@ -1,4 +1,4 @@
-import React from 'react'; 
+import React, {useEffect} from 'react'; 
 import SearchBar from './SearchBar'; 
 import youtube from '../api/youtube';
 import VideoList from './VideoList';
@@ -12,6 +12,7 @@ import './App.css';
 import MemberList from './MemberList'; 
 import Chat from "./Chat"
 import Loading from "./Loading"
+import ReactGa from 'react-ga'
 var MobileDetect = require('mobile-detect');
  var md = new MobileDetect(window.navigator.userAgent);
 
@@ -21,6 +22,13 @@ const socket = io("https://agile-mountain-68964.herokuapp.com/");
 //"https://agile-mountain-68964.herokuapp.com/"
 
 // There might be some PURE aids with the rooms here
+
+
+useEffect( () => {
+    ReactGa.initialize('UA-169327515-1')   
+   ReactGa.pageview('/')
+   }, []);
+
 
 class App extends React.Component {
     state = {videos: [], 
@@ -41,6 +49,8 @@ class App extends React.Component {
          newMessage:null, 
          newMemberPause:0,  
          name:null};
+
+
 
     joined = false;
     called = false; 
@@ -507,7 +517,7 @@ EnterName = () => {
                     </div>  
                 </div>
               
-              <Chat textReset={this.textReset} text={this.newText}  newText={this.state.newMessage}/>
+              <Chat  textReset={this.textReset} text={this.newText}  newText={this.state.newMessage}/>
               
         
              </div>
