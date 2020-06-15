@@ -3,7 +3,9 @@ const express = require('express')
 const http = require('http')
 const socketIO = require('socket.io')
 var mongoose = require("mongoose");
-const config = require("./config/config.js"); 
+//const config = require("./config/config.js"); 
+const cons = process.env.MONGO 
+//|| config.KEY; 
 
 
 const bodyParser = require('body-parser')
@@ -26,7 +28,7 @@ app.get('/', function (req, res) {
 
 
 
-mongoose.connect(config.KEY, { useNewUrlParser: true });
+mongoose.connect(cons, { useNewUrlParser: true });
 
 var Schema    =   mongoose.Schema;
 var Users = new Schema({ // example from docs
