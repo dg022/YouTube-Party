@@ -16,6 +16,7 @@ class Chat extends Component {
         if(nextProps.newText!=""){
 
             addResponseMessage(nextProps.newText);
+          
             nextProps.textReset(); 
 
         }
@@ -39,6 +40,7 @@ class Chat extends Component {
           handleNewUserMessage={this.handleNewUserMessage}
           title="Welcome to the Chat!"
           subtitle="Have Fun!"
+          //profileAvatar={logo}
         />
       </div>
     );

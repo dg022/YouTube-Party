@@ -18,10 +18,9 @@ class VideoDetail extends React.Component{
     started  = false; 
     newMemberPause = false;
     internalStart = 1; 
+    wePaused =  false ; 
     
     videochange =(event)=> {
-
-      // Here you need to emit a event that 
           
       if(event.target.playerInfo.playerState == 3 && this.started == false){
         this.props.play(event.target.playerInfo.currentTime, this.state.id);
@@ -117,11 +116,13 @@ class VideoDetail extends React.Component{
               
               if(this.props.video.id.videoId != nextProps.video.id.videoId){
                 this.started = false; 
+               
+
               }
 
             }
           
-            console.log(nextProps.nPause); 
+          
 
             // that means a video has been chosen
            if(this.state.player[0]!=null && nextProps.nPause == 1 && this.state.player[0].playerInfo.playerState != -1){
@@ -134,8 +135,10 @@ class VideoDetail extends React.Component{
               this.internalChange = true;
               this.state.player[0].pauseVideo();
               this.props.reset(this.state.player[0].getCurrentTime());
-              this.props.Reset(); 
-              
+              this.props.Reset();
+              this.props.joinedReset();  
+              this.wePaused = true; 
+              console.log("a new member has joined, send the current time and pause")
              
 
               
@@ -145,22 +148,21 @@ class VideoDetail extends React.Component{
 
             }
             
-          //  else{
-
-              //this will only ever be recvied by the other player, the only reason that this would have been fired before if the socket updated the props
 
               if(this.state.player[0]!=null){
                 
                 this.internalChange = true;
 
-                if(nextProps.joined == true){
+                if(nextProps.joined == true && this.wePaused!=true){
                   
-                 
+                 console.log("Joined was true here")
                   this.props.joinedReset(); 
-                  
                   this.state.player[0].seekTo(nextProps.time).pauseVideo();
                   this.started = true; 
                   
+              } if(this.wePaused == true){
+                this.wePaused = false 
+                ; 
               }
 
 

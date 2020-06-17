@@ -3,10 +3,10 @@ const express = require('express')
 const http = require('http')
 const socketIO = require('socket.io')
 var mongoose = require("mongoose");
-//const config = require("./config/config.js"); 
-const cons = process.env.MONGO 
-//|| config.KEY; 
-
+const config = require("./config/config.js"); 
+const cons =  config.KEY; 
+ 
+//process.env.MONGO ||
 
 const bodyParser = require('body-parser')
 const path = require('path');
