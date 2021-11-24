@@ -1,6 +1,6 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## LIVE SITE [https://www.youtubeparty.live/](http://YouTubeParty.live)
+## LIVE SITE [https://www.youtubeparty.live/](https://www.youtubeparty.live/)
 
 
 ## Available Scripts
